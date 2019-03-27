@@ -19,7 +19,7 @@ import java.sql.Statement;
 import java.util.Optional;
 
 /**
- * This example demonstrates a simple calculator service.
+ * Reference code - This example demonstrates a simple calculator service.
  *
  * It uses a synchronous route to evaluate addition and a middleware
  * that translates uncaught exceptions into error code 418.
