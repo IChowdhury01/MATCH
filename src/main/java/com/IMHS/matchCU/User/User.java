@@ -1,7 +1,6 @@
 package com.IMHS.matchCU.User;
 
-import java.sql.SQLOutput;
-import java.util.*;
+import java.util.ArrayList;
 
 public class User {
 
@@ -85,23 +84,23 @@ public class User {
     }
 
 
-    public Boolean[] getHobbies() {
-        for (Boolean k : hobbyList) {
-            System.out.println(k);
-        }
-    }
-
-    public void getPossibleHobbies() {
-        for (String j : availableHobbies) {
-            System.out.println(j);
-        }
-    }
-
-    public void getFriendsList() {  // Print contents of friends list
-        for (String i : friendsList) {
-            System.out.println(i);
-        }
-    }
+//    public Boolean[] getHobbies() {
+//        for (Boolean k : hobbyList) {
+//            System.out.println(k);
+//        }
+//    }
+//
+//    public void getPossibleHobbies() {
+//        for (String j : availableHobbies) {
+//            System.out.println(j);
+//        }
+//    }
+//
+//    public void getFriendsList() {  // Print contents of friends list
+//        for (String i : friendsList) {
+//            System.out.println(i);
+//        }
+//    }
 
     // Fix getter friendslist method
     // Add setter methods for hobbies, available hobbies, friends list (if possible)
