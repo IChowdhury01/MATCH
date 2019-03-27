@@ -84,6 +84,7 @@ public class User {
     }
 
 
+//  Array/ArrayList setter/getter - incomplete
 //    public Boolean[] getHobbies() {
 //        for (Boolean k : hobbyList) {
 //            System.out.println(k);
@@ -102,6 +103,4 @@ public class User {
 //        }
 //    }
 
-    // Fix getter friendslist method
-    // Add setter methods for hobbies, available hobbies, friends list (if possible)
 }
