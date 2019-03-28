@@ -9,9 +9,9 @@ import java.sql.*;
 // 3. Insert an account into the user database table.
 
 public class accessDB {
-    static String dbUser = "root";
+    static String dbUser = "root";  // make sure user/password matches mysql user/pass
     static String dbPass = "password";
-    static String dbURL = "jdbc:mysql//localhost:3306/matchdb";
+    static String dbURL = "jdbc:mysql://localhost:3306/matchdb?";
 
 
     public static void main(String[] args) throws SQLException {
