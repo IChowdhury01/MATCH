@@ -1,3 +1,4 @@
-com\IMHS\matchCU\User\User.class
-com\IMHS\matchCU\MatchCU.class
-com\IMHS\matchCU\userList\userList.class
+com\MatchCU.class
+com\userList\userList.class
+com\accessDB.class
+com\User\User.class
