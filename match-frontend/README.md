@@ -1,0 +1,1 @@
+This directory will be used to store our frontend code (Javascript/React)
