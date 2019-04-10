@@ -1,4 +1,4 @@
-package com;
+package com.store;
 
 import java.sql.*;
 
