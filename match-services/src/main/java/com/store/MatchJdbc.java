@@ -1,0 +1,59 @@
+package com.store;
+
+import com.typesafe.config.Config;
+import com.model.User;
+import com.model.UserBuilder;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+public class MatchJdbc implements UserStore {
+
+    private static final String GET_USER_STATEMENT =
+            "SELECT username FROM users WHERE username = ?";
+
+    private final Config config;
+
+    public MatchJdbc(final Config config) {
+        this.config = config;
+    }
+
+    @Override
+    public User getUser(final String username) {
+        Connection connection;
+        try {
+            connection =
+                    DriverManager.getConnection(
+                            config.getString("mysql.jdbc"),
+                            config.getString("mysql.user"),
+                            config.getString("mysql.password"));
+
+            PreparedStatement preparedStatement = connection.prepareStatement(GET_USER_STATEMENT);
+            preparedStatement.setString(1, username);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.first()) {
+                return new UserBuilder()
+                        .username(resultSet.getString("username"))
+                        .password(resultSet.getString("password"))
+                        .displayName(resultSet.getString("displayName"))
+                        .aboutMe(resultSet.getString("aboutMe"))
+//                        .hobbyList(resultSet.getBoolean[]("hobbyList"))
+                        .maxTravelDistance(resultSet.getInt("maxTravelDistance"))
+                        .longitude(resultSet.getDouble("longitude"))
+                        .latitude(resultSet.getDouble("latitude"))
+                        .oldFriendCount(resultSet.getInt("oldFriendCount"))
+//                        .availableHobbies(resultSet.getString[]("availableHobbies"))
+//                        .friendsList(resultSet.getString[]("friendsList"))
+                        .build();
+            } else {
+                return null;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("error fetching user", e);
+        }
+    }
+}
