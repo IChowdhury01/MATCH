@@ -2,7 +2,7 @@ package com.store;
 
 import com.model.User;
 
-public interface userStore {
+public interface UserStore {
 
     User getUser(String username);
 
