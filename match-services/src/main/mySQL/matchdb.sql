@@ -1,3 +1,5 @@
+DROP DATABASE IF EXISTS matchdb;
+
 CREATE DATABASE matchdb;
 USE matchdb;
 
