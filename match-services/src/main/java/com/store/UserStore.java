@@ -6,4 +6,5 @@ public interface UserStore {
 
     User getUser(String username);
 
+    User createUser(User newUser);
 }

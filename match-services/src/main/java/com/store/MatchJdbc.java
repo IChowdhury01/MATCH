@@ -20,6 +20,7 @@ public class MatchJdbc implements UserStore {
         this.config = config;
     }
 
+    // getUser - Finds all info of a user with the specified username in the DB. If there is no user, returns null.
     @Override
     public User getUser(final String username) {
         Connection connection;

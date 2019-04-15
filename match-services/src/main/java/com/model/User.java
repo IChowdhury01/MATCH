@@ -5,6 +5,8 @@ import java.util.ArrayList;
 
 @AutoMatter
 public interface User {
+
+    // Required fields: username, password, displayName, hobbyList, maxTravelDistance, longitude, latitude
     String username();          // Basic account info. Username MUST BE unique, it will be our main identifier
     String password();
     String displayName();       // Display Name =
@@ -16,7 +18,7 @@ public interface User {
     double latitude();
 
     int oldFriendCount();       // number of friends on last login - used to identify old and new users
-    String[] availableHobbies();  // List of possible hobbies - same for all users
+    String[] availableHobbies();  // List of possible hobbies - same for all users, might temporary field in handler class instead
     ArrayList<String> friendsList();  // ArrayList of strings (each string is a friend's display name)
 
     // Profile Pic: how to allow user to upload an image from their computer to the java server & database, and store it?
