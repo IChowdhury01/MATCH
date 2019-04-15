@@ -1,0 +1,1 @@
+This directory will contain our javascript and REACT code for our home, login, signup, friends list, and other relevant pages.
