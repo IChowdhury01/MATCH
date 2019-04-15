@@ -10,6 +10,7 @@ import com.spotify.apollo.Status;
 import com.spotify.apollo.route.*;
 import com.store.UserStore;
 import okio.ByteString;
+import org.mockito.Mockito.when;
 
 import java.io.IOException;
 import java.sql.SQLException;
