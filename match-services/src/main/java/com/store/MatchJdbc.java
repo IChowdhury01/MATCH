@@ -60,12 +60,18 @@ public class MatchJdbc implements UserStore {
 }
 
 @NewTest
-public User newUser(final String username) {
+public User newUser(final String[] arg) {
+    public static void main(String[] args) {
+        Connection conn = null;
+        Statement stmt = null;
     try {
         Connection conn = DriverManager.getConnection(
             config.getString("mysql.jdbc"),
             config.getString("mysql.user"),
             config.getString("mysql.password));
+        System.out.println("Connected to database successfully...");
+        System.out.println("Inserting new record into table...");
+        stmt = conn.createStatement();                     
         String sqlinsert = "INSERT INTO users (userid, username, userdisplayname, userpassword, userhobbylist, usermaxtraveldistance,userlatitude, userlongitude)" + "VALUES (?,?,?,?,?,?,?,?)";
         PreparedStatement psinsert = conn.prepareStatement(sqlinsert,Statement.RETURN_GENERATED_KEYS);
         psinsert.setInt(1,userid);
@@ -76,6 +82,10 @@ public User newUser(final String username) {
         psinsert.setString(6,usermaxtraveldistance);
         psinsert.setString(7,userlatitude);
         psinsert.setString(8,userlongitude);
+        stmt.executeUpdate(sqlinsert);                     
          }
+           catch (SQLException se) {
+               se.printStackTrace();
+           }
 }
                              
