@@ -36,7 +36,7 @@ public class userHandlersTest {
     }
 
     @Test
-    public void createUser() {
+    public void createUser() throws Exception {
     }
 
     @Test
