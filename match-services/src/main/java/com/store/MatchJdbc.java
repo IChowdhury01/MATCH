@@ -58,3 +58,24 @@ public class MatchJdbc implements UserStore {
         }
     }
 }
+
+@NewTest
+public User newUser(final String username) {
+    try {
+        Connection conn = DriverManager.getConnection(
+            config.getString("mysql.jdbc"),
+            config.getString("mysql.user"),
+            config.getString("mysql.password));
+        String sqlinsert = "INSERT INTO users (userid, username, userdisplayname, userpassword, userhobbylist, usermaxtraveldistance,userlatitude, userlongitude)" + "VALUES (?,?,?,?,?,?,?,?)";
+        PreparedStatement psinsert = conn.prepareStatement(sqlinsert,Statement.RETURN_GENERATED_KEYS);
+        psinsert.setInt(1,userid);
+        psinsert.setString(2,username);
+        psinsert.setString(3,userdisplayname);
+        psinsert.setString(4,userpassword);
+        psinsert.setString(5,userhobbylist);
+        psinsert.setString(6,usermaxtraveldistance);
+        psinsert.setString(7,userlatitude);
+        psinsert.setString(8,userlongitude);
+         }
+}
+                             
