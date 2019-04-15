@@ -61,7 +61,6 @@ public class MatchJdbc implements UserStore {
 
 @NewTest
 public User newUser(final String[] arg) {
-    public static void main(String[] args) {
         Connection conn = null;
         Statement stmt = null;
     try {
