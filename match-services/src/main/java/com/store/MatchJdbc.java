@@ -60,9 +60,23 @@ public class MatchJdbc implements UserStore {
 }
 
 @NewTest
-public User newUser(final String[] arg) {
+public boolean createUser(User newuser) {
         Connection conn = null;
-        Statement stmt = null;
+        PreparedStatement stmt = null;
+    try {
+        stmt = connection.prepareStatement("SELECT username FROM users WHERE username = ?");
+        stmt.setString(1,newuser.username());
+    }
+    catch (SQLException e) {
+        e.printStackTrace();
+    } //check existence
+    try {
+        stmt.executeQuery();
+    }
+    catch (SQLException e) {
+        e.printStackTrace();
+        return false;
+    }
     try {
         Connection conn = DriverManager.getConnection(
             config.getString("mysql.jdbc"),
@@ -73,18 +87,26 @@ public User newUser(final String[] arg) {
         stmt = conn.createStatement();                     
         String sqlinsert = "INSERT INTO users (userid, username, userdisplayname, userpassword, userhobbylist, usermaxtraveldistance,userlatitude, userlongitude)" + "VALUES (?,?,?,?,?,?,?,?)";
         PreparedStatement psinsert = conn.prepareStatement(sqlinsert,Statement.RETURN_GENERATED_KEYS);
-        psinsert.setInt(1,userid);
-        psinsert.setString(2,username);
-        psinsert.setString(3,userdisplayname);
-        psinsert.setString(4,userpassword);
-        psinsert.setString(5,userhobbylist);
-        psinsert.setString(6,usermaxtraveldistance);
-        psinsert.setString(7,userlatitude);
-        psinsert.setString(8,userlongitude);
-        stmt.executeUpdate(sqlinsert);                     
+        psinsert.setInt(1,newuser.userid);
+        psinsert.setString(2,newuser.username());
+        psinsert.setString(3,newuser.userdisplayname());
+        psinsert.setString(4,newuser.userpassword());
+        psinsert.setString(5,newuser.userhobbylist());
+        psinsert.setString(6,newuser.usermaxtraveldistance());
+        psinsert.setString(7,newuser.userlatitude());
+        psinsert.setString(8,newuser.userlongitude());
+       } 
+       catch (SQLException e) {
+           e.printStackTrace();
+       }
+                             
+        try{
+            stmt.execute(sqlinsert);
+            return true;
          }
            catch (SQLException se) {
                se.printStackTrace();
+               return false;
            }
 }
                              
