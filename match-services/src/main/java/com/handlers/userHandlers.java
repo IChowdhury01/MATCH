@@ -3,6 +3,8 @@ package com.handlers;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.collect.HashBiMap;
+import com.google.common.collect.BiMap;
 import com.model.User;
 import com.spotify.apollo.RequestContext;
 import com.spotify.apollo.Response;
@@ -28,7 +30,9 @@ public class userHandlers implements RouteProvider {
     // Fields
     private final ObjectMapper objectmapper;
     private final UserStore store;
+
     // Implement Cookie field - for persistent user session and logout
+   	static BiMap<String, Integer> cookielist = HashBiMap.create();
 
     // Constructor
     public userHandlers(final ObjectMapper objectMapper, final UserStore userstore) {
@@ -178,19 +182,18 @@ public class userHandlers implements RouteProvider {
         return Response.ok();
     }
 
-    /** getCookie
-     * - Takes input username string
-     * - Searches storage for cookie ID
-     *   - If it exists, return cookie ID
-     *   - If it doesn't, call createCookie
-     */
-
-    /** createCookie
-     * Create a random cookie ID
-     * Add to storage
-     * Return cookie ID
-     */
-
+    private Integer getCookie(String username) {
+        if (cookielist.containsKey(username)) {
+            return cookielist.get(username);
+        }
+        else {
+            Integer cookieid = (int)(Math.random() * 100000000);
+            cookielist.put(username, cookieid);
+            return cookieid;
+        }
+    }
+        
+    
     // Middleware for JSON serialization and routing
     private <T> Middleware<AsyncHandler<T>, AsyncHandler<Response<ByteString>>> jsonMiddleware() {
         return JsonSerializerMiddlewares.<T>jsonSerialize(objectmapper.writer())
