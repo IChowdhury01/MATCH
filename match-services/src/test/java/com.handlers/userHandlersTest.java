@@ -3,13 +3,14 @@ package com.handlers;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.spotify.apollo.RequestContext;
 import com.store.UserStore;
+import io.norberg.automatter.jackson.AutoMatterModule;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import java.awt.print.Book;
+import java.util.Collections;
 
 @RunWith(MockitoJUnitRunner.class)
 
@@ -24,6 +25,23 @@ public class userHandlersTest {
     @Before
     public void setup() {
         testClass = new userHandlers(objectMapper, userStore);
+
+        rom = new ObjectMapper().registerModule(new AutoMatterModule());
+        tur = new UserResource(object_mapper,store,group_store);
+        when(ctx_test.request()).thenReturn(request_test);
+
+        testuser = new UserBuilder()
+                .userid(1)
+                .username("tester123")
+                .userdisplayname("Test")
+                .userpassword("test123")
+                .userhobbylist("ski,boat,sleep")
+                .usermaxtraveldistance("25 miles")
+                .userlatitude("25W")
+                .userlongitude("80N")
+                .build();
+        when(ctx_test.pathArgs()).thenReturn(Collections.singletonMap("id",String.valueOf(testuser.uid())));
+
     }
     @Test
     public void getUser() {
@@ -39,6 +57,8 @@ public class userHandlersTest {
         // Mock dependencies and inputs
         // Call test class
         // Assert and verify
+
+
     }
 
     @Test
