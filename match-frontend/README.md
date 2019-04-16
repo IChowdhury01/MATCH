@@ -18,6 +18,7 @@ Redux-> Container-> Components-> Container-> Backend API-> Redux-> Component
 -components: presentational component files
 -containers: container components
 -lib: function files for project
+  -style.js : resource added as a comment for the style usage
 -pages: route components
 -redux: redux files
 
