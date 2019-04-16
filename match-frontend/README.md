@@ -21,7 +21,7 @@ Redux-> Container-> Components-> Container-> Backend API-> Redux-> Component
 
 -lib: function files for project
 
-  -style.js : resource added as a comment for the style usage
+  -style.js : resource added as a comment for the style usage and sample web designs
   
 -pages: route components
 
