@@ -59,7 +59,7 @@ public class MatchJdbc implements UserStore {
     @Override
     public Boolean createUser(User newUser) {
         Connection connection = null;
-        PreparedStatement statement = null;
+        PreparedStatement statement;
         String sqlinsert = null;
         try {
             statement = connection.prepareStatement("SELECT username FROM users WHERE username = ?");
