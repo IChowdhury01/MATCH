@@ -6,6 +6,7 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 import com.model.User;
+import com.model.UserBuilder;
 import com.spotify.apollo.RequestContext;
 import com.spotify.apollo.Response;
 import com.spotify.apollo.Status;
@@ -14,7 +15,6 @@ import com.store.UserStore;
 import okio.ByteString;
 
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.stream.Stream;
 
 /**
@@ -111,11 +111,11 @@ public class userHandlers implements RouteProvider {
                     .oldFriendCount(0)  // Old friend count = 0 for newly registered users
 
                     // .hobbyList(userJSON.get("hobbyList").asBoolean())   // How to get boolean array from JSON?
-                    .friendsList()  // Does this create an create empty arrayList of strings?
+                    // .friendsList()  // Does this create an create empty arrayList of strings?
                     // .availableHobbies(resultSet.getString[]("availableHobbies"))     // This field might not be necessary for user class (will need for friend search algorithm though)
                     .build();
         }
-        catch (IOException | SQLException err) {
+        catch (IOException err) {
             System.out.println(err);
         }
         return store.createUser(newUser);

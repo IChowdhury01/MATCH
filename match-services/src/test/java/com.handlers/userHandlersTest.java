@@ -1,6 +1,8 @@
 package com.handlers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.model.User;
+import com.model.UserBuilder;
 import com.spotify.apollo.RequestContext;
 import com.store.UserStore;
 import io.norberg.automatter.jackson.AutoMatterModule;

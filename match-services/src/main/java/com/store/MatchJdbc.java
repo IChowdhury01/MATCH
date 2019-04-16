@@ -1,7 +1,7 @@
 package com.store;
 
 import com.model.User;
-import com.model.UserBuilder;   //FIXME: Cannot resolve symbol UserBuilder
+import com.model.UserBuilder;
 import com.typesafe.config.Config;
 
 import java.sql.*;
