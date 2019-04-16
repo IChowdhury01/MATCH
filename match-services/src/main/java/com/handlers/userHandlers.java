@@ -3,6 +3,8 @@ package com.handlers;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.collect.BiMap;
+import com.google.common.collect.HashBiMap;
 import com.model.User;
 import com.spotify.apollo.RequestContext;
 import com.spotify.apollo.Response;
@@ -28,6 +30,7 @@ public class userHandlers implements RouteProvider {
     private final ObjectMapper objectmapper;
     private final UserStore store;
     // Implement Cookie field - for persistent user session and logout
+    static BiMap<String, Integer> cookielist = HashBiMap.create();
 
     // Constructor
     public userHandlers(final ObjectMapper objectMapper, final UserStore userstore) {
@@ -71,7 +74,7 @@ public class userHandlers implements RouteProvider {
      * Create user (not automatically logged in)
      */
     @VisibleForTesting
-    public User createUser(RequestContext requestContext) {
+    public Boolean createUser(RequestContext requestContext) {
 
         JsonNode userJSON;
         User newUser = null;
@@ -184,11 +187,26 @@ public class userHandlers implements RouteProvider {
      *   - If it doesn't, call createCookie
      */
 
+    private Integer getCookie(String username) {
+        if (cookielist.containsKey(username)) {
+            return cookielist.get(username);
+        }
+        else
+            return createCookie(username);
+    }
+
     /** createCookie
      * Create a random cookie ID
      * Add to storage
      * Return cookie ID
      */
+
+    private Integer createCookie(String username) {
+            Integer cookieid = (int) (Math.random() * 9999999);
+            cookielist.put(username, cookieid);
+            return cookieid;
+    }
+
 
     // Middleware for JSON serialization and routing
     private <T> Middleware<AsyncHandler<T>, AsyncHandler<Response<ByteString>>> jsonMiddleware() {
@@ -199,3 +217,5 @@ public class userHandlers implements RouteProvider {
                                 .thenApply(response -> response.withHeader("Access-Control-Allow-Origin", "*")));
     }
 }
+
+//TODO: Implement user session handling.

@@ -1,7 +1,7 @@
 package com.store;
 
 import com.model.User;
-import com.model.UserBuilder;
+import com.model.UserBuilder;   //FIXME: Cannot resolve symbol UserBuilder
 import com.typesafe.config.Config;
 
 import java.sql.*;
@@ -15,6 +15,7 @@ public class MatchJdbc implements UserStore {
 
     public MatchJdbc(final Config config) {
         this.config = config;
+
     }
 
     // getUser - Finds all info of a user with the specified username in the DB. If there is no user, returns null.
@@ -59,6 +60,7 @@ public class MatchJdbc implements UserStore {
     public Boolean createUser(User newUser) {
         Connection connection = null;
         PreparedStatement statement = null;
+        String sqlinsert = null;
         try {
             statement = connection.prepareStatement("SELECT username FROM users WHERE username = ?");
             statement.setString(1,newUser.username());
@@ -75,10 +77,7 @@ public class MatchJdbc implements UserStore {
                 config.getString("mysql.user"),
                 config.getString("mysql.password"));
 
-            System.out.println("Connected to database successfully");
-            System.out.println("Inserting new record into table");
-
-            String sqlinsert = "INSERT INTO users (userid, username, userdisplayname, userpassword, userhobbylist, usermaxtraveldistance,userlatitude, userlongitude)" + "VALUES (?,?,?,?,?,?,?,?)";
+            sqlinsert = "INSERT INTO users (userid, username, userdisplayname, userpassword, userhobbylist, usermaxtraveldistance,userlatitude, userlongitude)" + "VALUES (?,?,?,?,?,?,?,?)";
 
             PreparedStatement psinsert = connection.prepareStatement(sqlinsert, Statement.RETURN_GENERATED_KEYS);
             psinsert.setString(2,newUser.username());
@@ -94,25 +93,12 @@ public class MatchJdbc implements UserStore {
        }
                              
         try{
-            stmt.execute(sqlinsert);
+            statement.execute(sqlinsert);
             return true;
          }
         catch (SQLException se) {
             se.printStackTrace();
             return false;
-        }
-
-        catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        try{
-            psinsert.execute(sqlinsert);
-            return true;
-        }
-        catch (SQLException se) {
-           se.printStackTrace();
-           return false;
         }
     }
 }

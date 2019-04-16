@@ -6,6 +6,7 @@ import com.spotify.apollo.Environment;
 import com.spotify.apollo.httpservice.HttpService;
 import com.spotify.apollo.httpservice.LoadingException;
 import com.spotify.apollo.route.Route;
+import com.store.MatchJdbc;
 import com.store.UserStore;
 import io.norberg.automatter.jackson.AutoMatterModule;
 
@@ -34,7 +35,7 @@ public final class MatchApp {
         ObjectMapper objectmapper = new ObjectMapper().registerModule(new AutoMatterModule());
 
         // Instantiate stores
-        UserStore userstore = new matchJdbc(environment.config());
+        UserStore userstore = new MatchJdbc(environment.config());
 
         // Instantiate resources/handlers
         userHandlers userhandler = new userHandlers(objectmapper,userstore);
