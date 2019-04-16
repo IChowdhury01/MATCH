@@ -173,7 +173,7 @@ public class userHandlers implements RouteProvider {
 			}
 			else {
 				Integer cookieid = (int) (Math.random() * 9999999);
-				cookielist.put(username, cookieid);
+				cookielist.put(userinDB.username(), cookieid);
 				//TODO create cookie
 				return Response.ok().withPayload(cookieid);
 			}
