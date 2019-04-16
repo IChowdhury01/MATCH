@@ -138,6 +138,7 @@ public class userHandlers implements RouteProvider {
     public Response<Integer> userLogin(RequestContext requestContext) {
         JsonNode userJSON2 = null;
         String passinDB = null;
+        User userinDB = null;
         try {
             userJSON2 = objectmapper.readTree(requestContext.request().payload().get().utf8());
 
@@ -151,7 +152,7 @@ public class userHandlers implements RouteProvider {
                 }
             }
             // Check if given username is in database
-            User userinDB = store.getUser(userJSON2.get("username").asText());
+            userinDB = store.getUser(userJSON2.get("username").asText());
             if (userinDB == null) {
                 throw new IOException("Login failed: user does not exist");
             }
