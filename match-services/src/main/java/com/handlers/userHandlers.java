@@ -168,7 +168,15 @@ public class userHandlers implements RouteProvider {
         }
 
         if ((passinDB != null) && (passinDB.equals(userJSON2.get("username").asText()))) {
-            return Response.ok().withPayload(getCookie(userinDB.username()));   //TODO: Implement getcookie method
+            if (cookielist.containsKey(userinDB.username())) {
+				return Response.ok().withPayload(cookielist.get(userinDB.username()));
+			}
+			else {
+				Integer cookieid = (int) (Math.random() * 9999999);
+				cookielist.put(username, cookieid);
+				//TODO create cookie
+				return Response.ok().withPayload(cookieid);
+			}
         }
         else
             return Response.forStatus(Status.NOT_FOUND);
@@ -177,35 +185,8 @@ public class userHandlers implements RouteProvider {
     // userLogout - removes user's cookie ID from the database
     @VisibleForTesting
     public Response<ByteString> userLogout(RequestContext requestContext) {
-        // cookie_db.remove(Integer.valueOf(requestContext.pathArgs().get("id"))); /TODO create way to remove cookie from storage
+        // cookielist.remove(Integer.valueOf(requestContext.pathArgs().get("id"))); /TODO create way to remove cookie from storage
         return Response.ok();
-    }
-
-    /** getCookie
-     * - Takes input username string
-     * - Searches storage for cookie ID
-     *   - If it exists, return cookie ID
-     *   - If it doesn't, call createCookie
-     */
-
-    private Integer getCookie(String username) {
-        if (cookielist.containsKey(username)) {
-            return cookielist.get(username);
-        }
-        else
-            return createCookie(username);
-    }
-
-    /** createCookie
-     * Create a random cookie ID
-     * Add to storage
-     * Return cookie ID
-     */
-
-    private Integer createCookie(String username) {
-            Integer cookieid = (int) (Math.random() * 9999999);
-            cookielist.put(username, cookieid);
-            return cookieid;
     }
 
 
