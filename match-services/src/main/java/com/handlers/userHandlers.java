@@ -88,7 +88,7 @@ public class userHandlers implements RouteProvider {
                 (userJSON.get("displayName").asText() == null) || (userJSON.get("displayName").asText().isEmpty()) ||
                 (userJSON.get("maxTravelDistance").asInt() == -1 ) || (userJSON.get("maxTravelDistance").asInt() == 0) ||
                 (userJSON.get("longitude").asDouble() == 0.0) || (userJSON.get("latitude").asDouble() == 0.0)
-                //   || (userJSON.get("hobbyList").asBoolean() == null) || (userJSON.get("hobbyList").asBoolean() == 0)  // How to "get" a boolean array from userJSON, and check if it's empty or all 0s (no hobbies chosen)?
+                //   || (userJSON.get("hobbyList").asBoolean() == null) || (userJSON.get("hobbyList").asBoolean() == 0)  // TODO: How to "get" a boolean array from userJSON, and check if it's empty or all 0s (no hobbies chosen)?
                 ) {
                     throw new IOException("Failed to create user: All required fields must be filled.");
                 }
@@ -110,8 +110,9 @@ public class userHandlers implements RouteProvider {
 
                     .oldFriendCount(0)  // Old friend count = 0 for newly registered users
 
-                    // .hobbyList(userJSON.get("hobbyList").asBoolean())   // How to get boolean array from JSON?
-                    // .friendsList()  // Does this create an create empty arrayList of strings?
+                    // TODO: Figure out how to build and retrieve from JSON arrays and arraylists
+                    // .hobbyList(userJSON.get("hobbyList").asBoolean())   // TODO: Retrieve boolean array containing chosen hobbies from JSON (registration fields), then create it in the builder.
+                    // .friendsList()  // TODO: Create an empty arrayList of Strings for new user's friendslist
                     // .availableHobbies(resultSet.getString[]("availableHobbies"))     // This field might not be necessary for user class (will need for friend search algorithm though)
                     .build();
         }

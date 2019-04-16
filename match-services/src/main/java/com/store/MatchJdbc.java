@@ -45,8 +45,8 @@ public class MatchJdbc implements UserStore {
                         .longitude(resultSet.getDouble("longitude"))
                         .latitude(resultSet.getDouble("latitude"))
                         .oldFriendCount(resultSet.getInt("oldFriendCount"))
-//                        .availableHobbies(resultSet.getString[]("availableHobbies"))
-//                        .friendsList(resultSet.getString[]("friendsList"))
+//                        .availableHobbies(resultSet.getString[]("availableHobbies"))  //TODO: How to get array of strings
+//                        .friendsList(resultSet.getString[]("friendsList"))    //TODO: Get arraylist of strings
                         .build();
             } else {
                 return null;
@@ -83,7 +83,7 @@ public class MatchJdbc implements UserStore {
             psinsert.setString(2,newUser.username());
             psinsert.setString(3,newUser.displayName());
             psinsert.setString(4,newUser.password());
-            // psinsert.setBoolean(5,newuser.hobbyList());  How to insert boolean array to database
+            // psinsert.setBoolean(5,newuser.hobbyList());  // TODO: How to insert boolean array to database
             psinsert.setInt(6,newUser.maxTravelDistance());
             psinsert.setDouble(7,newUser.latitude());
             psinsert.setDouble(8,newUser.longitude());

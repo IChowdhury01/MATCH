@@ -15,6 +15,9 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.Collections;
 
+// TODO Implement user handler tests for login, logout, createuser and getuser
+
+
 @RunWith(MockitoJUnitRunner.class)
 
 public class userHandlersTest {
