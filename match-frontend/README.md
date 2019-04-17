@@ -1,3 +1,33 @@
+mysql run ->usr,pwd
+
+change resource match ervices,match jdbc+UI
+
+<Front/Backend connection structure>
+
+redux->container->component->container->backend API->redux->container
+
+<Setup>
+1. create-react-app matchy
+  
+2. yarn add react-router-dom react-redux redux redux-actions immutable styled-components open-color
+
+3. yarn start
+
+<File Directory>
+-used absolute path ./src => added NODE PATH in the package.json script
+  
+-components: presentational components
+
+-containers: container components
+
+-lib: function => added resources as the comments which we used for the webpage style and sample hearder files for now
+
+-pages: routing files
+
+-redux: redux code
+
+
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
