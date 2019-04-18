@@ -9,13 +9,12 @@ import java.sql.*;
 public class MatchJdbc implements UserStore {
 
     private static final String GET_USER_STATEMENT =
-            "SELECT username FROM users WHERE username = ?";
+            "SELECT * FROM users WHERE username = ?";
 
     private final Config config;
 
     public MatchJdbc(final Config config) {
         this.config = config;
-
     }
 
     // getUser - Finds all info of a user with the specified username in the DB. If there is no user, returns null.
@@ -37,14 +36,14 @@ public class MatchJdbc implements UserStore {
             if (resultSet.first()) {
                 return new UserBuilder()
                         .username(resultSet.getString("username"))
-                        .password(resultSet.getString("password"))
-                        .displayName(resultSet.getString("displayName"))
-                        .aboutMe(resultSet.getString("aboutMe"))
-//                        .hobbyList(resultSet.getBoolean[]("hobbyList"))
-                        .maxTravelDistance(resultSet.getInt("maxTravelDistance"))
-                        .longitude(resultSet.getDouble("longitude"))
-                        .latitude(resultSet.getDouble("latitude"))
-                        .oldFriendCount(resultSet.getInt("oldFriendCount"))
+                        .password(resultSet.getString("userpassword"))
+                        .displayName(resultSet.getString("userdisplayname"))
+                        //.aboutMe(resultSet.getString("aboutMe"))
+//                        .hobbyList(resultSet.getBoolean[]("userhobbylist"))
+                        .maxTravelDistance(resultSet.getInt("usermaxtraveldistance"))
+                        .longitude(resultSet.getDouble("userlongitude"))
+                        .latitude(resultSet.getDouble("userlatitude"))
+                        //.oldFriendCount(resultSet.getInt("oldFriendCount"))
 //                        .availableHobbies(resultSet.getString[]("availableHobbies"))  //TODO: How to get array of strings
 //                        .friendsList(resultSet.getString[]("friendsList"))    //TODO: Get arraylist of strings
                         .build();

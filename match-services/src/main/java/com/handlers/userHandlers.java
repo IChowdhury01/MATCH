@@ -38,14 +38,12 @@ public class userHandlers implements RouteProvider {
         this.store = userstore;
     }
 
+    // Route.sync - runs methods e.g. getUser
+    // .RegisterAutoRoute(Route.sync) - just sends a string
     // Routing
     @Override
     public Stream<Route<AsyncHandler<Response<ByteString>>>> routes() {
         return Stream.of (
-            Route.sync("GET", "/", ctx -> Response.ok()
-                .withPayload("Successfully reached MATCH - Friend Matching Platform.\n"))
-                .withMiddleware(jsonMiddleware()),
-
             Route.sync("GET", "/user/<username>", this::getUser)
                 .withMiddleware(jsonMiddleware()),
 
@@ -61,67 +59,6 @@ public class userHandlers implements RouteProvider {
     }
 
     // Handler Functions (to be unit tested)
-    // getUser - returns a user object, given a specific username
-    @VisibleForTesting
-    User getUser(final RequestContext requestContext) {
-        return store.getUser(requestContext.pathArgs().get("username"));
-    }
-
-    /**Create User method
-     * Serialize request to JSON
-     * Check that all REQUIRED fields are filled
-     * Check that username does not already exist in database
-     * Create user (not automatically logged in)
-     */
-    @VisibleForTesting
-    public Boolean createUser(RequestContext requestContext) {
-
-        JsonNode userJSON;
-        User newUser = null;
-        try {
-            userJSON = objectmapper.readTree(requestContext.request().payload().get().utf8());
-
-            if (userJSON != null) {
-                if (
-                (userJSON.get("username").asText() == null) || (userJSON.get("username").asText().isEmpty()) ||
-                (userJSON.get("password").asText() == null) || (userJSON.get("password").asText().isEmpty()) ||
-                (userJSON.get("displayName").asText() == null) || (userJSON.get("displayName").asText().isEmpty()) ||
-                (userJSON.get("maxTravelDistance").asInt() == -1 ) || (userJSON.get("maxTravelDistance").asInt() == 0) ||
-                (userJSON.get("longitude").asDouble() == 0.0) || (userJSON.get("latitude").asDouble() == 0.0)
-                //   || (userJSON.get("hobbyList").asBoolean() == null) || (userJSON.get("hobbyList").asBoolean() == 0)  // TODO: How to "get" a boolean array from userJSON, and check if it's empty or all 0s (no hobbies chosen)?
-                ) {
-                    throw new IOException("Failed to create user: All required fields must be filled.");
-                }
-            }
-                // Check if the username entered for registration already exists (getUser will return user info from db)
-                if (store.getUser(userJSON.get("username").asText()) != null) {
-                    throw new IOException("Failed to create user: Username already exists.");
-                }
-
-            newUser = new UserBuilder()    // Create user
-                    .username(userJSON.get("username").asText())    // Registration fields
-                    .password(userJSON.get("password").asText())
-                    .displayName(userJSON.get("displayName").asText())
-                    .aboutMe(userJSON.get("aboutMe").asText())
-
-                    .maxTravelDistance(userJSON.get("maxTravelDistance").asInt())
-                    .longitude(userJSON.get("longitude").asDouble())
-                    .latitude(userJSON.get("latitude").asDouble())
-
-                    .oldFriendCount(0)  // Old friend count = 0 for newly registered users
-
-                    // TODO: Figure out how to build and retrieve from JSON arrays and arraylists
-                    // .hobbyList(userJSON.get("hobbyList").asBoolean())   // TODO: Retrieve boolean array containing chosen hobbies from JSON (registration fields), then create it in the builder.
-                    // .friendsList()  // TODO: Create an empty arrayList of Strings for new user's friendslist
-                    // .availableHobbies(resultSet.getString[]("availableHobbies"))     // This field might not be necessary for user class (will need for friend search algorithm though)
-                    .build();
-        }
-        catch (IOException err) {
-            System.out.println(err);
-        }
-        return store.createUser(newUser);
-    }
-
     /**User Login method
      * Serialize to JSON
      * Check that username and password fields are filled.
@@ -147,7 +84,7 @@ public class userHandlers implements RouteProvider {
                 // Check if any fields are blank
                 if (
                         (userJSON2.get("username").asText() == null) || (userJSON2.get("username").asText().isEmpty()) ||
-                        (userJSON2.get("password").asText() == null) || (userJSON2.get("password").asText().isEmpty())
+                                (userJSON2.get("password").asText() == null) || (userJSON2.get("password").asText().isEmpty())
                 ) {
                     throw new IOException("Login failed: username and password fields must be filled");
                 }
@@ -170,17 +107,70 @@ public class userHandlers implements RouteProvider {
 
         if ((passinDB != null) && (passinDB.equals(userJSON2.get("username").asText()))) {
             if (cookielist.containsKey(userinDB.username())) {
-				return Response.ok().withPayload(cookielist.get(userinDB.username()));
-			}
-			else {
-				Integer cookieid = (int) (Math.random() * 9999999);
-				cookielist.put(userinDB.username(), cookieid);
-				//TODO create cookie
-				return Response.ok().withPayload(cookieid);
-			}
+                return Response.ok().withPayload(cookielist.get(userinDB.username()));
+            }
+            else {
+                Integer cookieid = (int) (Math.random() * 9999999);
+                cookielist.put(userinDB.username(), cookieid);
+                //TODO create cookie
+                return Response.ok().withPayload(cookieid);
+            }
         }
         else
             return Response.forStatus(Status.NOT_FOUND);
+    }
+    // getUser - returns a user object, given a specific username
+
+    @VisibleForTesting
+    User getUser(final RequestContext requestContext) {
+        return store.getUser(requestContext.pathArgs().get("username"));
+    }
+
+    /**Create User method
+     * Serialize request to JSON
+     * Check that all REQUIRED fields are filled
+     * Check that username does not already exist in database
+     * Create user (not automatically logged in)
+     */
+    @VisibleForTesting
+    public Boolean createUser(RequestContext requestContext) {
+        if (!requestContext.request().payload().isPresent()) {
+            return false;
+        }
+
+        JsonNode userJSON;
+        User newUser = null;
+        try {
+            newUser = objectmapper.readValue(requestContext.request().payload().get().toByteArray(), User.class);   // Convert payload to user object
+            userJSON = objectmapper.readTree(requestContext.request().payload().get().utf8());
+
+            // Check if the username entered for registration already exists (getUser will return user info from db)
+            if (store.getUser(userJSON.get("username").asText()) != null) {
+                throw new IOException("Failed to create user: Username already exists.");
+            }
+
+            newUser = new UserBuilder()    // Create user
+                    .username(userJSON.get("username").asText())    // Registration fields
+                    .password(userJSON.get("password").asText())
+                    .displayName(userJSON.get("displayName").asText())
+                    // .aboutMe(userJSON.get("aboutMe").asText())   Add aboutMe to database table
+
+                    .maxTravelDistance(userJSON.get("maxTravelDistance").asInt())
+                    .longitude(userJSON.get("longitude").asDouble())
+                    .latitude(userJSON.get("latitude").asDouble())
+
+                    .oldFriendCount(0)  // Old friend count = 0 for newly registered users
+
+                    // TODO: Figure out how to build and retrieve from JSON arrays and arraylists
+                    // .hobbyList(userJSON.get("hobbyList").asBoolean())   // TODO: Retrieve boolean array containing chosen hobbies from JSON (registration fields), then create it in the builder.
+                    // .friendsList()  // TODO: Create an empty arrayList of Strings for new user's friendslist
+                    // .availableHobbies(resultSet.getString[]("availableHobbies"))     // This field might not be necessary for user class (will need for friend search algorithm though)
+                    .build();
+        }
+        catch (IOException err) {
+            System.out.println(err);
+        }
+        return store.createUser(newUser);
     }
 
     // userLogout - removes user's cookie ID from the database
