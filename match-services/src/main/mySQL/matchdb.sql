@@ -45,7 +45,7 @@ INSERT INTO hobbies VALUES(2,'reading');
 INSERT INTO hobbies VALUES(3,'bicycling');
 INSERT INTO hobbies VALUES(4,'hiking');
 INSERT INTO hobbies VALUES(5,'camping');
-INSERT INTO	hobbies VALUES(6,'dancing');
+INSERT INTO hobbies VALUES(6,'dancing');
 INSERT INTO hobbies VALUES(7,'running');
 INSERT INTO hobbies VALUES(8,'bowling');
 INSERT INTO hobbies VALUES(9,'video games');
