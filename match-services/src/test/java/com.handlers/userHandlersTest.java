@@ -15,7 +15,6 @@
 //
 //import java.util.Collections;
 //
-//// TODO Implement user handler tests for login, logout, createuser and getuser
 //
 //
 //@RunWith(MockitoJUnitRunner.class)
@@ -47,23 +46,6 @@
 //                .userlongitude("80N")
 //                .build();
 //        when(ctx_test.pathArgs()).thenReturn(Collections.singletonMap("id",String.valueOf(testuser.uid())));
-//
-//    }
-//    @Test
-//    public void getUser() {
-//        // Setup vars
-//        User expecteduser = new UserBuilder()
-//                .username("Test User 1")
-//                .password("")
-//                .displayName("")
-//                .aboutMe("")
-//
-//                .build();
-//
-//        // Mock dependencies and inputs
-//        // Call test class
-//        // Assert and verify
-//
 //
 //    }
 //

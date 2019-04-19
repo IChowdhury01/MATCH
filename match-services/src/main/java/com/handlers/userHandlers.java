@@ -158,13 +158,6 @@ public class userHandlers implements RouteProvider {
                     .maxTravelDistance(userJSON.get("maxTravelDistance").asInt())
                     .longitude(userJSON.get("longitude").asDouble())
                     .latitude(userJSON.get("latitude").asDouble())
-
-                    .oldFriendCount(0)  // Old friend count = 0 for newly registered users
-
-                    // TODO: Figure out how to build and retrieve from JSON arrays and arraylists
-                    // .hobbyList(userJSON.get("hobbyList").asBoolean())   // TODO: Retrieve boolean array containing chosen hobbies from JSON (registration fields), then create it in the builder.
-                    // .friendsList()  // TODO: Create an empty arrayList of Strings for new user's friendslist
-                    // .availableHobbies(resultSet.getString[]("availableHobbies"))     // This field might not be necessary for user class (will need for friend search algorithm though)
                     .build();
         }
         catch (IOException err) {

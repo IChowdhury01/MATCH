@@ -6,6 +6,16 @@ import com.typesafe.config.Config;
 
 import java.sql.*;
 
+
+/**
+ * Database operations we need:
+ * 0. initDatabase? - run sql script to create database
+ * 1. getUser - get all of a single user's database info (or just the id?)
+ * 2. createUser - add a new user (row) to the database. Fill out all rows (account for required and nonrequired registration fields)
+ * 3. userLogin
+ * Others we might need: getFriendsList, setFriends, setHobbies, photoUpload
+ */
+
 public class MatchJdbc implements UserStore {
 
     private static final String GET_USER_STATEMENT =
@@ -39,13 +49,9 @@ public class MatchJdbc implements UserStore {
                         .password(resultSet.getString("userpassword"))
                         .displayName(resultSet.getString("userdisplayname"))
                         //.aboutMe(resultSet.getString("aboutMe"))
-//                        .hobbyList(resultSet.getBoolean[]("userhobbylist"))
                         .maxTravelDistance(resultSet.getInt("usermaxtraveldistance"))
                         .longitude(resultSet.getDouble("userlongitude"))
                         .latitude(resultSet.getDouble("userlatitude"))
-                        //.oldFriendCount(resultSet.getInt("oldFriendCount"))
-//                        .availableHobbies(resultSet.getString[]("availableHobbies"))  //TODO: How to get array of strings
-//                        .friendsList(resultSet.getString[]("friendsList"))    //TODO: Get arraylist of strings
                         .build();
             } else {
                 return null;
@@ -82,7 +88,6 @@ public class MatchJdbc implements UserStore {
             psinsert.setString(2,newUser.username());
             psinsert.setString(3,newUser.displayName());
             psinsert.setString(4,newUser.password());
-            // psinsert.setBoolean(5,newuser.hobbyList());  // TODO: How to insert boolean array to database
             psinsert.setInt(6,newUser.maxTravelDistance());
             psinsert.setDouble(7,newUser.latitude());
             psinsert.setDouble(8,newUser.longitude());

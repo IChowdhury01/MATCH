@@ -31,7 +31,7 @@ INSERT INTO users VALUES(1,'test1','James Smith','jamessmith','swimming, biking,
 INSERT INTO users VALUES(2,'test2','Jenny Goldstein','jennygoldstein','swimming, reading, cooking','20','25','30');
 INSERT INTO users VALUES(3,'test3','Rachel Berry','rachelberry','singing, eating, skateboarding','25','15','35');
 INSERT INTO users VALUES(4,'test4','Will Schuester','willschuester','singing, dancing, fishing','15','35','45');
-INSERT INTO users VALUES(5,'test5','Quinn Fabray','quinnfabray','singing, cheerlleading, baking','5','16','35');
+INSERT INTO users VALUES(5,'test5','Quinn Fabray','quinnfabray','singing, cheerleading, baking','5','16','35');
 INSERT INTO users VALUES(6,'test6','Mike Chang','mikechang','football, singing, running','10','35','35');
 INSERT INTO users VALUES(7,'test7','Ryujin Kang','ryujinkang','dancing, singing, hiking','15','20','20');
 INSERT INTO users VALUES(8,'test8','Sue Sylvester','suesylvester','coaching, dancing, eating','5','10','80');
