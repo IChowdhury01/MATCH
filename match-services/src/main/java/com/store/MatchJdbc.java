@@ -10,10 +10,10 @@ import java.sql.*;
 /**
  * Database operations we need:
  * 0. initDatabase? - run sql script to create database
- * 1. getUser - get all of a single user's database info (or just the id?)
- * 2. createUser - add a new user (row) to the database. Fill out all rows (account for required and nonrequired registration fields)
- * 3. userLogin
- * Others we might need: getFriendsList, setFriends, setHobbies, photoUpload
+ * 1. getUser - accesses users, userhobbies databases
+ * 2. createUser - accesses users, userhobbies databases Fill out all rows (account for required and nonrequired registration fields)
+ * 3. userLogin - accesses users, userhobbies, friends databases.
+ * Others we might need: photoUpload
  */
 
 public class MatchJdbc implements UserStore {
