@@ -5,5 +5,5 @@ Did this as a seperate project to get it to work cleanly.
 2. Open the login.html file to see the post requests work.
 
 3. These two get requests also work  
-   http://localhost:4567/  
-   http://localhost:4567/user/<NAME>
+   http://localhost:8080/  
+   http://localhost:8080/user/<USERNAME>

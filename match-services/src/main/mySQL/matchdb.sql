@@ -1,3 +1,5 @@
+--Database Creation Script (for testing)
+
 DROP DATABASE IF EXISTS matchdb;
 
 CREATE DATABASE matchdb;
@@ -40,21 +42,22 @@ INSERT INTO users VALUES(8,'test8','Sue Sylvester','suesylvester','5','10','80',
 INSERT INTO users VALUES(9,'test9','Becky Jackson','beckyjackson','10','25','25','I am a cheerleader');
 INSERT INTO users VALUES(10,'test10','Tom Holland','tomholland','30','79','75','I am Spiderman');
 
-INSERT INTO hobbies VALUES(1,'swimming');
-INSERT INTO hobbies VALUES(2,'reading');
-INSERT INTO hobbies VALUES(3,'bicycling');
-INSERT INTO hobbies VALUES(4,'hiking');
-INSERT INTO hobbies VALUES(5,'camping');
-INSERT INTO hobbies VALUES(6,'dancing');
-INSERT INTO hobbies VALUES(7,'running');
-INSERT INTO hobbies VALUES(8,'bowling');
-INSERT INTO hobbies VALUES(9,'video games');
-INSERT INTO hobbies VALUES(10,'programming');
-INSERT INTO hobbies VALUES(11,'watching TV');
-INSERT INTO hobbies VALUES(12,'singing');
-INSERT INTO hobbies VALUES(13,'going to the movies');
-INSERT INTO hobbies VALUES(14,'basketball');
-INSERT INTO hobbies VALUES(15,'football');
+INSERT INTO hobbies VALUES(1,'Swimming');
+INSERT INTO hobbies VALUES(2,'Reading');
+INSERT INTO hobbies VALUES(3,'Bicycling');
+INSERT INTO hobbies VALUES(4,'Hiking');
+INSERT INTO hobbies VALUES(5,'Camping');
+INSERT INTO hobbies VALUES(6,'Dancing');
+INSERT INTO hobbies VALUES(7,'Running');
+INSERT INTO hobbies VALUES(8,'Video games');
+INSERT INTO hobbies VALUES(9,'Bowling');
+INSERT INTO hobbies VALUES(10,'Basketball');
+INSERT INTO hobbies VALUES(11,'Football');
+INSERT INTO hobbies VALUES(12,'Baseball');
+INSERT INTO hobbies VALUES(13,'Programming');
+INSERT INTO hobbies VALUES(14,'Watching TV');
+INSERT INTO hobbies VALUES(15,'Going to the movies');
+
 
 INSERT INTO userHobbies VALUES(1,1);
 INSERT INTO userHobbies VALUES(1,3);
@@ -92,7 +95,3 @@ INSERT INTO friendsList VALUES(3,4);
 INSERT INTO friendsList VALUES(5,6);
 INSERT INTO friendsList VALUES(7,8);
 INSERT INTO friendsList VALUES(9,10);
-
-
-
-
