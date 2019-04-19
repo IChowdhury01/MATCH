@@ -1,0 +1,37 @@
+- Data stored for every user
+  - user id (int)
+  - username (string)
+  - userdisplayname (string)
+  - userpassword (string)
+  - usermaxtraveldistance (double) (what is this? miles?)
+  - userlatitude (double)
+  - userlongitude (double)
+  - aboutMe/Bio (string)
+- Hobbies - these are all preset 
+  - hobby id (15)
+  - hobby name (15)
+    - Swimming 
+    - Reading  
+    - Bicycling 
+    - Hiking 
+    - Camping  
+    - Dancing  
+    - Running  
+    - Bowling 
+    - Video Games   
+    - Programming  
+    -  Reading  
+    - Watching TV   
+    - Going to the Movies       
+    - Basketball 
+    - Football
+- UserHobbies - mapping table, many to many relationship, join User and Hobby tables
+  - user id
+  - hobby id
+  - <https://stackoverflow.com/questions/20636918/how-to-store-user-interests-in-database?answertab=votes#tab-top>
+  - <http://sqlfiddle.com/#!2/f500a8/6>
+- Friends - one-to-many relationship, links user table back to itself
+  - userid1
+  - userid2
+  - <https://stackoverflow.com/questions/3009190/mysql-friends-table>
+
