@@ -35,3 +35,42 @@
   - userid2
   - <https://stackoverflow.com/questions/3009190/mysql-friends-table>
 
+### Methods
+
+- getUser
+  - Takes in string username
+  - Outputs either int, User object, or string
+- userLogin
+  - Takes in strings name and password
+  - Outputs Boolean (true if login success, false if failure)
+- createUser
+  - Input
+    - strings
+      - username
+      - password
+      - displayName
+      - aboutMe
+    - doubles
+      - maxTravelDistance
+      - latitude
+      - longitude
+    - Booleans
+      - swimming
+      - reading
+      - bike
+      - hiking
+      - camp
+      - dance
+      - run
+      - games
+      - bowl
+      - basketball
+      - football
+      - baseball
+      - program
+      - TV
+      - moveis
+  - Output boolean
+- initDatabase
+  - input nothing
+  - output boolean
