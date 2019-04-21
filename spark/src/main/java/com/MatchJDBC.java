@@ -1,19 +1,19 @@
 package com;
 
+import org.sqlite.*;
 import java.sql.*;
-import org.sqlite.SQLiteConfig;
 
 public class MatchJDBC {
     public static final String JDBC_URL = "jdbc:sqlite::memory:";
+    connection c = null;
+    Statement stmt = null;
     public static void createDatabase() {
-        connection c = null;
-        Statement stmt = null;
         try {
             Class.forName("org.sqlite.JDBC");
         } catch (ClassNotFoundException e) {
             throw new ExceptionInInitializerError(e);
         }
-
+    }
 
         public void openConnection () throws SQLException {
             if (c == null || c.isClosed()) {
@@ -32,12 +32,14 @@ public class MatchJDBC {
                 c = DriverManager.getConnection("jdbc:sqlite:match.db");
                 c.setAutoCommit(false);
                 stmt = c.createStatement();
+                stmt.executeUpdate("DROP DATABASE IF EXISTS matchdb");
+                stmt.executeUpdate("CREATE DATABASE matchdb");
+                stmt.executeUpdate("USE DATABASE matchdb");
                 stmt.executeUpdate("CREATE TABLE IF NOT EXISTS users (userid INTEGER PRIMARY KEY NOT NULL, username varchar(30) NOT NULL, userdisplayname varchar(40) NOT NULL, userpassword varchar(50) NOT NULL, usermaxtraveldistance INTEGER NOT NULL, userlatitude varchar(30) NOT NULL, userlongitude varchar(30) NOT NULL, useraboutMe varchar(1000) NOT NULL))");
                 stmt.executeUpdate("CREATE TABLE IF NOT EXISTS hobbies (hid INTEGER PRIMARY KEY NOT NULL, hinterests varchar(100)");
                 stmt.executeUpdate("CREATE TABLE IF NOT EXISTS userhobbies (uhiid INTEGER NOT NULL, uhhid INTEGER NOT NULL, PRIMARY KEY(uhiid,uhhid)");
                 stmt.executeUpdate("CREATE TABLE IF NOT EXISTS friendsList (fid1 INTEGER NOT NULL, fid2, INTEGER NOT NULL, PRIMARY KEY(fid1,fid2)");
-            }
-            catch (SQLException e) {
+            } catch (SQLException e) {
                 System.err.println("[ERROR] createSchema : " + e.getMessage());
             }
         }
@@ -108,56 +110,54 @@ public class MatchJDBC {
                 try (PreparedStatement usrStmt = c.prepareStatement("INSERT INTO users VALUES(?,?,?,?,?,?,?,?)")) {
                     for (String u : user) {
                         final String[] cols = u.split(",");
-                        usrStmt.setInt(1,Integer.valueOf(cols[0]));
-                        usrStmt.setString(2,cols[1]);
-                        usrStmt.setString(3,cols[2]);
-                        usrStmt.setString(4,cols[3]);
-                        usrStmt.setInt(5,Integer.valueOf(cols[4]));
-                        usrStmt.setString(6,cols[5]);
-                        usrStmt.setString(7,cols[6]);
-                        usrStmt.setString(8,cols[7]);
+                        usrStmt.setInt(1, Integer.valueOf(cols[0]));
+                        usrStmt.setString(2, cols[1]);
+                        usrStmt.setString(3, cols[2]);
+                        usrStmt.setString(4, cols[3]);
+                        usrStmt.setInt(5, Integer.valueOf(cols[4]));
+                        usrStmt.setString(6, cols[5]);
+                        usrStmt.setString(7, cols[6]);
+                        usrStmt.setString(8, cols[7]);
                         usrStmt.executeUpdate();
                     }
                 }
                 try (PreparedStatement hbyStmt = c.prepareStatement("INSERT INTO hobbies VALUES(?,?)")) {
-                    for (String h: hobby) {
+                    for (String h : hobby) {
                         final String[] cols = h.split(",");
-                        hbyStmt.setInt(1,Integer.valueOf(cols[0]));
-                        hbyStmt.setString(2,cols[1]);
+                        hbyStmt.setInt(1, Integer.valueOf(cols[0]));
+                        hbyStmt.setString(2, cols[1]);
                         hbyStmt.executeUpdate();
                     }
                 }
                 try (PreparedStatement usrhbyStmt = c.prepareStatement("INSERT INTO userHobbies VALUES (?,?)")) {
                     for (String r : userHobby) {
                         final String[] cols = r.split(",");
-                        usrhbyStmt.setInt(1,Integer.valueOf(cols[0]));
-                        usrhbyStmt.setInt(2,Integer.valueOf(cols[1]));
+                        usrhbyStmt.setInt(1, Integer.valueOf(cols[0]));
+                        usrhbyStmt.setInt(2, Integer.valueOf(cols[1]));
                         usrhbyStmt.executeUpdate();
                     }
                 }
-            }
-            catch (SQLException e) {
+            } catch (SQLException e) {
                 System.err.println("[ERROR] initSchema: " + e.getMessage());
             }
         }
     }
-//
-//    private boolean userExists(Statement stmt, String username) throws SQLException {
-//        final ResultSet rs = stmt.executeQuery("SELECT username FROM users WHERE username = " + username);
-//        final boolean exists = rs.next();
-//        rs.close();
-//        return exists;// Fix this return type (User object)
-//
-//    }
-//
-//    public static Boolean userLogin(String username, String password) {
-//    }
-//
-//    public static Boolean createUser () {
-//            String username, String password, String displayName, String aboutMe,
-//            Double maxTravelDistance, Double latitude, Double longitude,
-//            Boolean Swimming, Boolean Reading, Boolean Biking, Boolean Hiking, Boolean Camping,
-//            Boolean Dancing, Boolean Running, Boolean Video Games, Boolean Bowling, Boolean Basketball,
-//            Boolean Football, Boolean Baseball, Boolean Programming, Boolean Watching TV, Boolean Going to the Movies)
-//        }
 
+    public boolean getUser(Statement stmt, String username) throws SQLException {
+        final ResultSet rs = stmt.executeQuery("SELECT username FROM users WHERE username = " + username);
+        final boolean exists = rs.next();
+        rs.close();
+        return exists;// Fix this return type (User object)
+    }
+
+    public static Boolean userLogin(String username, String password) {
+
+    }
+
+    public static Boolean createUser () {
+            String username, String password, String displayName, String aboutMe,
+            Double maxTravelDistance, Double latitude, Double longitude,
+            Boolean Swimming, Boolean Reading, Boolean Biking, Boolean Hiking, Boolean Camping,
+            Boolean Dancing, Boolean Running, Boolean Video Games, Boolean Bowling, Boolean Basketball,
+            Boolean Football, Boolean Baseball, Boolean Programming, Boolean Watching TV, Boolean Going to the Movies)
+    }
