@@ -119,11 +119,11 @@ public class MatchJDBC {
         }
     }
 
-    public boolean getUser(Statement stmt, String username) throws SQLException {
+    public static String getUser(String username) throws SQLException {
         final ResultSet rs = stmt.executeQuery("SELECT username FROM users WHERE username = " + username);
         final boolean exists = rs.next();
         rs.close();
-        return exists;// Fix this return type (User object)
+        return username;// Fix this return type (User object)
     }
 
     public static boolean userLogin(String username, String password) {

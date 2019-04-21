@@ -1,5 +1,6 @@
 package com;
 
+import java.sql.*;
 import com.MatchJDBC;
 import static spark.Spark.*;
 
@@ -19,7 +20,15 @@ public class MatchApp {
          * Profile/Friendslist, Friend profile pages can not?
          */
         String staticFilesDir = "src/main/resources/";
-
+        String usrname;          // Basic account info. Username MUST BE unique, it will be our main identifier
+//        String password;
+//        String displayName;       // Display Name, this is the name users will see.
+//        String aboutMe;
+//        int maxTravelDistance;    // Maximum distance to search for friends
+//        double longitude;         // Geolocation data
+//        double latitude;
+        Statement stmt;
+//        boolean Dancing;
 
         // Configure Spark's embedded Jetty Web Server
         port(8080);     // To test routes: localhost:8080/<routeURL>
@@ -34,7 +43,8 @@ public class MatchApp {
 
         get("/user/:name", (req,res)-> {
             String username = req.queryParams("username");
-            return getUser(username);
+            return false;
+//            return getUser(username);
         });
 
         post("/login",(req,res)-> {
@@ -87,14 +97,12 @@ public class MatchApp {
             // May need a logout route - not sure yet.
             // Upload profile pic route - http://sparkjava.com/documentation#javadoc
 
-
         // Set up after filters [OPTIONAL]
-
 
         // Initialize and test database
         MatchJDBC.createSchema();
-        MatchJDBC.createUser(username, password, displayName, aboutMe, maxTravelDistance, latitude, longitude,  Swimming, Reading, Biking, Hiking, Camping,  Dancing, Running, Video_Games, Bowling, Basketball, Football, Baseball, Programming, Watching_TV, Going_to_the_Movies);
-        MatchJDBC.userLogin(username,password);
-        MatchJDBC.getUser(stmt,username);
+//        MatchJDBC.createUser(username, password, displayName, aboutMe, maxTravelDistance, latitude, longitude,  Swimming, Reading, Biking, Hiking, Camping,  Dancing, Running, Video_Games, Bowling, Basketball, Football, Baseball, Programming, Watching_TV, Going_to_the_Movies);
+//        MatchJDBC.userLogin(username,password);
+//        MatchJDBC.getUser(usrname);
     }
 }
