@@ -64,21 +64,21 @@ public class MatchApp {
                     Double.parseDouble(req.queryParams("longitude")),
 
                     // survey questions - get from radio buttons, parse to Boolean
-                    Boolean.parseBoolean(req.queryParams("swimming")),   // not sure if this works
-                    Boolean.parseBoolean(req.queryParams("reading")),
-                    Boolean.parseBoolean(req.queryParams("bike")),
-                    Boolean.parseBoolean(req.queryParams("hiking")),
-                    Boolean.parseBoolean(req.queryParams("camp")),
-                    Boolean.parseBoolean(req.queryParams("dance")),
-                    Boolean.parseBoolean(req.queryParams("run")),
-                    Boolean.parseBoolean(req.queryParams("games")),
-                    Boolean.parseBoolean(req.queryParams("bowl")),
-                    Boolean.parseBoolean(req.queryParams("basketball")),
-                    Boolean.parseBoolean(req.queryParams("football")),
-                    Boolean.parseBoolean(req.queryParams("baseball")),
-                    Boolean.parseBoolean(req.queryParams("program")),
-                    Boolean.parseBoolean(req.queryParams("TV")),
-                    Boolean.parseBoolean(req.queryParams("movies"))
+                    Boolean.parseBoolean(req.queryParams("Swimming")),   // not sure if this works
+                    Boolean.parseBoolean(req.queryParams("Reading")),
+                    Boolean.parseBoolean(req.queryParams("Biking")),
+                    Boolean.parseBoolean(req.queryParams("Hiking")),
+                    Boolean.parseBoolean(req.queryParams("Camping")),
+                    Boolean.parseBoolean(req.queryParams("Dancing")),
+                    Boolean.parseBoolean(req.queryParams("Running")),
+                    Boolean.parseBoolean(req.queryParams("Video Games")),
+                    Boolean.parseBoolean(req.queryParams("Bowling")),
+                    Boolean.parseBoolean(req.queryParams("Basketball")),
+                    Boolean.parseBoolean(req.queryParams("Football")),
+                    Boolean.parseBoolean(req.queryParams("Baseball")),
+                    Boolean.parseBoolean(req.queryParams("Programming")),
+                    Boolean.parseBoolean(req.queryParams("Watching TV")),
+                    Boolean.parseBoolean(req.queryParams("Going to the Movies"))
                     );
             res.redirect("/login.html");
             return "Registration Successful";
