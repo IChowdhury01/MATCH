@@ -143,9 +143,9 @@ public class MatchJDBC {
         }
     }
 
-    public boolean getUser(Statement stmt, String username) throws SQLException {
+    public Boolean getUser(Statement stmt, String username) throws SQLException {
         final ResultSet rs = stmt.executeQuery("SELECT username FROM users WHERE username = " + username);
-        final boolean exists = rs.next();
+        final Boolean exists = rs.next();
         rs.close();
         return exists;// Fix this return type (User object)
     }
