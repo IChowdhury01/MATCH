@@ -9,16 +9,16 @@ public class MatchJDBC {
 
     static void createSchema () {
         try {
-            c = DriverManager.getConnection("jdbc:mysql://localhost:3306/matchdb");
+            c = DriverManager.getConnection("jdbc:mysql://localhost:3306/matchdb","root","");
             //c.setAutoCommit(false);
             stmt = c.createStatement();
-            stmt.executeUpdate("DROP DATABASE IF EXISTS matchdb");
+            stmt.executeUpdate("DROP DATABASE matchdb");
             stmt.executeUpdate("CREATE DATABASE matchdb");
-            stmt.executeUpdate("USE DATABASE matchdb");
-            stmt.executeUpdate("CREATE TABLE IF NOT EXISTS users (userid INTEGER PRIMARY KEY NOT NULL, username varchar(30) NOT NULL, userdisplayname varchar(40) NOT NULL, userpassword varchar(50) NOT NULL, usermaxtraveldistance INTEGER NOT NULL, userlatitude varchar(30) NOT NULL, userlongitude varchar(30) NOT NULL, useraboutMe varchar(1000) NOT NULL))");
-            stmt.executeUpdate("CREATE TABLE IF NOT EXISTS hobbies (hid INTEGER PRIMARY KEY NOT NULL, hinterests varchar(100)");
-            stmt.executeUpdate("CREATE TABLE IF NOT EXISTS userhobbies (uhiid INTEGER NOT NULL, uhhid INTEGER NOT NULL, PRIMARY KEY(uhiid,uhhid)");
-            stmt.executeUpdate("CREATE TABLE IF NOT EXISTS friendsList (fid1 INTEGER NOT NULL, fid2, INTEGER NOT NULL, PRIMARY KEY(fid1,fid2)");
+            stmt.executeUpdate("USE matchdb");
+            stmt.executeUpdate("CREATE TABLE IF NOT EXISTS users (userid INTEGER PRIMARY KEY NOT NULL, username varchar(30) NOT NULL, userdisplayname varchar(40) NOT NULL, userpassword varchar(50) NOT NULL, usermaxtraveldistance INTEGER NOT NULL, userlatitude varchar(30) NOT NULL, userlongitude varchar(30) NOT NULL, useraboutMe varchar(1000) NOT NULL)");
+            stmt.executeUpdate("CREATE TABLE IF NOT EXISTS hobbies (hid INTEGER PRIMARY KEY NOT NULL, hinterests varchar(100))");
+            stmt.executeUpdate("CREATE TABLE IF NOT EXISTS userhobbies (uhiid INTEGER NOT NULL, uhhid INTEGER NOT NULL, PRIMARY KEY(uhiid,uhhid))");
+            stmt.executeUpdate("CREATE TABLE IF NOT EXISTS friendsList (fid1 INTEGER NOT NULL, fid2 INTEGER NOT NULL, PRIMARY KEY(fid1,fid2))");
         } catch (SQLException e) {
             System.err.println("[ERROR] createSchema : " + e.getMessage());
         }

@@ -5,6 +5,8 @@ DROP DATABASE IF EXISTS matchdb;
 CREATE DATABASE matchdb;
 USE matchdb;
 
+SET GLOBAL time_zone = '+0:00';
+
 CREATE TABLE users (
 	userid INTEGER PRIMARY KEY NOT NULL,
 	username varchar(30) NOT NULL,
