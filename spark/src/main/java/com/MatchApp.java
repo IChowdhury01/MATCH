@@ -33,6 +33,8 @@ public class MatchApp {
         // Configure Spark's embedded Jetty Web Server
         port(8080);     // To test routes: localhost:8080/<routeURL>
         staticFiles.location(staticFilesDir);   // Set static files directory
+        
+        staticFiles.externalLocation(staticFilesDir); //only for local testing
 
 
         // Set up before filters [OPTIONAL]
