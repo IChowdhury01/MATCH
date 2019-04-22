@@ -3,7 +3,6 @@ package com;
 import java.sql.*;
 
 public class MatchJDBC {
-    public static final String JDBC_URL = "jdbc:mysql://localhost:3306/matchdb";
     static Connection c = null;
     static Statement stmt = null;
 
@@ -12,7 +11,7 @@ public class MatchJDBC {
             c = DriverManager.getConnection("jdbc:mysql://localhost:3306/matchdb","root","");
             //c.setAutoCommit(false);
             stmt = c.createStatement();
-            stmt.executeUpdate("DROP DATABASE matchdb");
+            stmt.executeUpdate("DROP DATABASE IF EXISTS matchdb");
             stmt.executeUpdate("CREATE DATABASE matchdb");
             stmt.executeUpdate("USE matchdb");
             stmt.executeUpdate("CREATE TABLE IF NOT EXISTS users (userid INTEGER PRIMARY KEY NOT NULL, username varchar(30) NOT NULL, userdisplayname varchar(40) NOT NULL, userpassword varchar(50) NOT NULL, usermaxtraveldistance INTEGER NOT NULL, userlatitude varchar(30) NOT NULL, userlongitude varchar(30) NOT NULL, useraboutMe varchar(1000) NOT NULL)");
