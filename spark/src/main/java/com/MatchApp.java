@@ -103,6 +103,8 @@ public class MatchApp {
 
         // Initialize and test database
         MatchJDBC.createSchema();
+        MatchJDBC.initSchema();
+
 //        MatchJDBC.createUser(username, password, displayName, aboutMe, maxTravelDistance, latitude, longitude,  Swimming, Reading, Biking, Hiking, Camping,  Dancing, Running, Video_Games, Bowling, Basketball, Football, Baseball, Programming, Watching_TV, Going_to_the_Movies);
 //        MatchJDBC.userLogin(username,password);
 //        MatchJDBC.getUser(usrname);
