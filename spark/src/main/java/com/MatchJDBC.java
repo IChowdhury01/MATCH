@@ -118,11 +118,76 @@ public class MatchJDBC {
         }
     }
 
-    public static String getUser(String username) throws SQLException {
-        final ResultSet rs = stmt.executeQuery("SELECT username FROM users WHERE username = " + username);
-        final boolean exists = rs.next();
+    public static String getDisplayName(String username) throws SQLException {
+        PreparedStatement stmt = c.prepareStatement("SELECT userdisplayname FROM users WHERE username = ?");
+        stmt.setString(1,username);
+        final ResultSet rs = stmt.executeQuery();
+        String displayName="";
+        while(rs.next()) {
+            displayName = rs.getString("userdisplayname");
+        }
         rs.close();
-        return username;// Fix this return type (User object)
+        return displayName;
+    }
+
+    public static String getPassword(String username) throws SQLException {
+        PreparedStatement stmt = c.prepareStatement("SELECT userpassword FROM users WHERE username = ?");
+        stmt.setString(1,username);
+        final ResultSet rs = stmt.executeQuery();
+        String password="";
+        while(rs.next()) {
+            password = rs.getString("userpassword");
+        }
+        rs.close();
+        return password;
+    }
+
+    public static String getAboutMe(String username) throws SQLException {
+        PreparedStatement stmt = c.prepareStatement("SELECT useraboutMe FROM users WHERE username = ?");
+        stmt.setString(1,username);
+        final ResultSet rs = stmt.executeQuery();
+        String aboutMe="";
+        while(rs.next()) {
+            aboutMe = rs.getString("useraboutMe");
+        }
+        rs.close();
+        return aboutMe;
+    }
+
+    public static int getMaxTravelDistance(String username) throws SQLException {
+        PreparedStatement stmt = c.prepareStatement("SELECT usermaxtraveldistance FROM users WHERE username = ?");
+        stmt.setString(1,username);
+        final ResultSet rs = stmt.executeQuery();
+        int distance=0;
+        while(rs.next()) {
+            distance = rs.getInt("usermaxtraveldistance");
+        }
+        rs.close();
+        return distance;
+    }
+
+    public static double getLatitude(String username) throws SQLException {
+        PreparedStatement stmt = c.prepareStatement("SELECT userlatitude FROM users WHERE username = ?");
+        stmt.setString(1,username);
+        final ResultSet rs = stmt.executeQuery();
+        double latitude=0.0;
+        while(rs.next()) {
+            latitude = rs.getDouble("userlatitude");
+        }
+        rs.close();
+        return latitude=0.0;
+    }
+
+    public static double getLongitude(String username) throws SQLException {
+        PreparedStatement stmt = c.prepareStatement("SELECT userlongitude FROM users WHERE username = ?");
+        stmt.setString(1,username);
+        final ResultSet rs = stmt.executeQuery();
+        double longitude=0.0;
+        while(rs.next()) {
+            longitude = rs.getDouble("userlongitude");
+        }
+        rs.close();
+        return longitude;
     }
 
     public static boolean userLogin(String username, String password) {
