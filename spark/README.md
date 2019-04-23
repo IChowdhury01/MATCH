@@ -1,4 +1,4 @@
-1. Make sure to chance the sql credentials in MatchJDBC to match your own.
+1. Make sure to change the sql credentials in MatchJDBC to match your own.
 
 2. After building and running, go to http://localhost:8080/ 
 
