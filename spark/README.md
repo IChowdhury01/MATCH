@@ -14,4 +14,4 @@
 
 8. Front end is implemented throughout (including a few pages that interpret jsons from the server), but it's all text-based and unpolished.
 
-9. The main things that still need to be implemented are: Friend Matching, Registeration, a prettier Front End, and the VM.
+9. The main things that still need to be implemented are: Friend Matching, Registeration, image uploads, a prettier Front End, and the VM.
