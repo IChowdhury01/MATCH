@@ -4,7 +4,7 @@
 
 3. Since you haven't logged in, it redirects you to the sign in page.
 
-4. Registering a new account is currently broken, but you can sign in as one of the test users.. e.g. "test1", pass: "jamessmith"
+4. You can make a new account or you can just sign in as one of the test users.. e.g. "test1", pass: "jamessmith"
 
 5. This will take you back to the root directory, but now that you have a valid cookie the server will recognize you're signed in and redirect to your list of freinds.
 
@@ -14,4 +14,4 @@
 
 8. Front end is implemented throughout (including a few pages that interpret jsons from the server), but it's all text-based and unpolished.
 
-9. The main things that still need to be implemented are: Friend Matching, Registeration, image uploads, a prettier Front End, and the VM.
+9. The main things that still need to be implemented are: Friend Matching, image uploads, a prettier Front End, and the VM.
