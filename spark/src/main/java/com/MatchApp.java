@@ -56,7 +56,7 @@ public class MatchApp {
         });
         get("/friends", (req,res)-> {
             String username = userFromCookie(req,res);
-            res.type("application/json"); //TODO Replace this with a dynamic list of firends
+            res.type("application/json"); //TODO Replace this with a dynamic list of friends
             return "{\"DisplayName\":[\"James Smith\",\"Jenny Goldstein\"]" +
                     ",\"UserName\":[\"test1\",\"test2\"]}";
         });
@@ -73,6 +73,8 @@ public class MatchApp {
         post("/login",(req,res)-> {
             String name = req.queryParams("username");
             String pass = req.queryParams("password");
+            if (pass.equals("") || name.equals(""))
+                res.redirect("/login.html");
 
             if(MatchJDBC.getPassword(name).equals(pass)) {
                 //Set the cookie with their session id. If it already exists in the list use that, otherwise get a new random value
@@ -85,7 +87,6 @@ public class MatchApp {
                     res.cookie("match",cookieid);
                 }
                 res.redirect("/");
-//                res.redirect("/user/"+name);
 
             }
             else
