@@ -4,7 +4,7 @@
 
 3. Since you haven't logged in, it redirects you to the sign in page.
 
-4. You can make a new account or you can just sign in as one of the test users.. e.g. "test1", pass: "jamessmith"
+4. You can make a new account (make sure to fill out all the fields as there's no error checking yet) or you can just sign in as one of the test users.. e.g. "test1", pass: "jamessmith"
 
 5. This will take you back to the root directory, but now that you have a valid cookie the server will recognize you're signed in and redirect to your list of freinds.
 
