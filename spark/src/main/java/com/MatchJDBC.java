@@ -203,12 +203,12 @@ public class MatchJDBC {
     }
 
     public static String matchUserHobby(String hobby) throws SQLException {
-        PreparedStatement stmt = c.prepareStatement("SELECT username FROM users, hobbies, userHobbies WHERE userHobbies.uhiid = users.userid and userHobbies.uhhid = hobbies.hid and hobbies.hinterests = '?'");
+        PreparedStatement stmt = c.prepareStatement("SELECT userdisplayname FROM users, hobbies, userHobbies WHERE userHobbies.uhiid = users.userid and userHobbies.uhhid = hobbies.hid and hobbies.hinterests = '?'");
         stmt.setString(1,hobby);
         final ResultSet rs = stmt.executeQuery();
         String users = "";
         while(rs.next()) {
-            users = rs.getString("username");
+            users = rs.getString("userdisplayname");
         }
         rs.close();
         return users;
