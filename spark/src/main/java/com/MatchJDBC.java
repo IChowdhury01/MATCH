@@ -22,7 +22,7 @@ public class MatchJDBC {
             System.err.println("[ERROR] createSchema : " + e.getMessage());
         }
     }
-    void initSchema () {
+    static void initSchema () {
         final String[] user = new String[] {
             "1,test1,James Smith,jamessmith,10,40,30,I like to party",
             "2,test2,Jenny Goldstein,jennygoldstein,20,25,30,I am sporty",
