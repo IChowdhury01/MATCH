@@ -1,12 +1,17 @@
 package com;
 
 import java.sql.*;
+import java.util.ArrayList;
+import com.google.common.collect.BiMap;
+import com.google.common.collect.HashBiMap;
 import com.MatchJDBC;
 import static spark.Spark.*;
 
 public class MatchApp {
 
     // Declare dependencies (i.e. classes, interfaces) [OPTIONAL]
+
+    static BiMap<String, String> cookielist = HashBiMap.create();
 
     public static void main(String[] args) {
 
@@ -20,50 +25,76 @@ public class MatchApp {
          * Profile/Friendslist, Friend profile pages can not?
          */
         String staticFilesDir = "src/main/resources/";
-        String usrname;          // Basic account info. Username MUST BE unique, it will be our main identifier
-//        String password;
-//        String displayName;       // Display Name, this is the name users will see.
-//        String aboutMe;
-//        int maxTravelDistance;    // Maximum distance to search for friends
-//        double longitude;         // Geolocation data
-//        double latitude;
-        Statement stmt;
-//        boolean Dancing;
+
 
         // Configure Spark's embedded Jetty Web Server
         port(8080);     // To test routes: localhost:8080/<routeURL>
         staticFiles.location(staticFilesDir);   // Set static files directory
-        
-        staticFiles.externalLocation(staticFilesDir); //only for local testing
 
-
-        // Set up before filters [OPTIONAL]
+        staticFiles.externalLocation(staticFilesDir);
 
 
         // Set up routing
         get("/ping", (req, res)->"Pong\n");
 
+
+        get("/", (req,res)-> {
+            String value = req.cookie("match");
+            String username = userFromCookie(req,res);
+            if (username == null)
+                res.redirect("/home.html");
+            else
+                res.redirect("/welcome.html");
+            return username;
+        });
+
         get("/user/:name", (req,res)-> {
-            String username = req.queryParams("username");
-            return false;
-//            return getUser(username);
+            String username = req.params(":name");
+            res.type("application/json");
+            return "{\"DisplayName\":\""+MatchJDBC.getDisplayName(username)+"\"" +
+                    ",\"AboutMe\":\""+MatchJDBC.getAboutMe(username)+"\"}";
+        });
+        get("/friends", (req,res)-> {
+            String username = userFromCookie(req,res);
+            res.type("application/json"); //TODO Replace this with a dynamic list of firends
+            return "{\"DisplayName\":[\"James Smith\",\"Jenny Goldstein\"]" +
+                    ",\"UserName\":[\"test1\",\"test2\"]}";
+        });
+
+        get("logout", (req,res)-> {
+            String username = userFromCookie(req,res);
+            if (username != null) {
+                cookielist.remove("match");
+                res.removeCookie("match");
+            }
+            return "logged out";
         });
 
         post("/login",(req,res)-> {
             String name = req.queryParams("username");
             String pass = req.queryParams("password");
 
-            Boolean loginsuccess = MatchJDBC.userLogin(name, pass);
+            if(MatchJDBC.getPassword(name).equals(pass)) {
+                //Set the cookie with their session id. If it already exists in the list use that, otherwise get a new random value
+                if (cookielist.containsKey(name)){
+                    res.cookie("match",String.valueOf(cookielist.get(name)));
+                }
+                else {
+                    String cookieid =  String.valueOf( (int) (Math.random() * 9999999));
+                    cookielist.put(name, cookieid);
+                    res.cookie("match",cookieid);
+                }
+                res.redirect("/");
+//                res.redirect("/user/"+name);
 
-            if(loginsuccess)
-                res.redirect("/user/:name");
+            }
             else
                 res.redirect("/login.html");
-            return loginsuccess;
+            return 1;
         });
 
         post("/register",(req,res)-> {
-            MatchJDBC.createUser (
+            MatchJDBC.createUser ( //TODO Fix this function
                     req.queryParams("username"),
                     req.queryParams("password"),
                     req.queryParams("displayName"),
@@ -96,7 +127,6 @@ public class MatchApp {
             return "Registration Successful";
         });
 
-            // May need a logout route - not sure yet.
             // Upload profile pic route - http://sparkjava.com/documentation#javadoc
 
         // Set up after filters [OPTIONAL]
@@ -104,13 +134,30 @@ public class MatchApp {
         // Initialize and test database
         MatchJDBC.createSchema();
         MatchJDBC.initSchema();
-
 //        MatchJDBC.createUser(username, password, displayName, aboutMe, maxTravelDistance, latitude, longitude,  Swimming, Reading, Biking, Hiking, Camping,  Dancing, Running, Video_Games, Bowling, Basketball, Football, Baseball, Programming, Watching_TV, Going_to_the_Movies);
 //        MatchJDBC.userLogin(username,password);
 //        MatchJDBC.getUser(usrname);
     }
-    
-    public static double distance(double lat1, double lat2, double long1, double long2) {
+    private static String userFromCookie(spark.Request req,spark.Response res) {
+
+        String value = req.cookie("match");
+        if (value == null)
+            return null;
+        else
+        {
+            try {
+                if (cookielist.containsValue(value))
+                    return cookielist.inverse().get(value);
+                else
+                    return null;
+            }
+            catch(NumberFormatException e) {
+                return null;
+            }
+        }
+    }
+
+    private static double distance(double lat1, double lat2, double long1, double long2) {
         //https://stackoverflow.com/questions/3694380/calculating-distance-between-two-points-using-latitude-longitude
 
         final int R = 6371; // Radius of the earth
@@ -122,7 +169,20 @@ public class MatchApp {
                 * Math.sin(lonDistance / 2) * Math.sin(lonDistance / 2);
         double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
         return R * c * 0.621371; // convert to miles
-
     }
 
+/*    private static ArrayList<String> findFriends(String username) { //TODO Fix this
+        double lat1 = MatchJDBC.getLatitude(username);
+        double long1 = MatchJDBC.getLongitude(username);
+        int max1 = MatchJDBC.getMaxTravelDistance(username);
+        String[] potFriends = {"test1","test2","test5"}; //getPotFriends(username);
+        ArrayList<String> realFriends = new ArrayList<String>();
+        for (String user : potFriends) {
+            if (distance(lat1, MatchJDBC.getLatitude(user), long1, MatchJDBC.getLongitude(user)) < Math.min(max1, MatchJDBC.getMaxTravelDistance(user)))
+            {
+                realFriends.add(user);
+            }
+        }
+        return realFriends;
+    }*/
 }

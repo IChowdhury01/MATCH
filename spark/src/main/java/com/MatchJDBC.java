@@ -190,8 +190,13 @@ public class MatchJDBC {
         return longitude;
     }
 
-    public static boolean userLogin(String username, String password) {
-        return false;
+
+
+    public static boolean userLogin(String username, String password) throws java.sql.SQLException {
+        if (!getPassword(username).equals(password))
+            return true;
+        else
+            return false;
     }
 
     public static boolean createUser (String username, String password, String displayName, String aboutMe,
