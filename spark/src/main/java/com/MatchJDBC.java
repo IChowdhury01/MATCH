@@ -5,6 +5,7 @@ import java.sql.*;
 public class MatchJDBC {
     static Connection c = null;
     static Statement stmt = null;
+    public static int Usercount=0;
 
     static void createSchema () {
         try {
@@ -89,11 +90,11 @@ public class MatchJDBC {
             PreparedStatement usrStmt = c.prepareStatement("INSERT INTO users VALUES(?,?,?,?,?,?,?,?)");
             for (String u : user) {
                 final String[] cols = u.split(",");
-                usrStmt.setInt(1, Integer.valueOf(cols[0]));
+                usrStmt.setInt(1, ++Usercount);
                 usrStmt.setString(2, cols[1]);
                 usrStmt.setString(3, cols[2]);
                 usrStmt.setString(4, cols[3]);
-                usrStmt.setInt(5, Integer.valueOf(cols[4]));
+                usrStmt.setInt(5, Integer.valueOf(cols[4])); //TODO these types should be consistent with createUser
                 usrStmt.setString(6, cols[5]);
                 usrStmt.setString(7, cols[6]);
                 usrStmt.setString(8, cols[7]);
@@ -197,6 +198,22 @@ public class MatchJDBC {
             boolean Swimming, boolean Reading, boolean Biking, boolean Hiking, boolean Camping,
             boolean Dancing, boolean Running, boolean Video_Games, boolean Bowling, boolean Basketball,
             boolean Football, boolean Baseball, boolean Programming, boolean Watching_TV, boolean Going_to_the_Movies) {
+
+
+        try {
+            PreparedStatement usrStmt = c.prepareStatement("INSERT INTO users VALUES(?,?,?,?,?,?,?,?)");
+                usrStmt.setInt(1, ++Usercount);
+                usrStmt.setString(2, username);
+                usrStmt.setString(3, displayName);
+                usrStmt.setString(4, password);
+                usrStmt.setDouble(5, maxTravelDistance); //TODO these types should be consistent with initSchema
+                usrStmt.setDouble(6, latitude);
+                usrStmt.setDouble(7, longitude);
+                usrStmt.setString(8, aboutMe);
+                usrStmt.executeUpdate();
+        } catch (SQLException e) {
+            System.err.println("[ERROR] createUser: " + e.getMessage());
+        }
         return false;
     }
 
