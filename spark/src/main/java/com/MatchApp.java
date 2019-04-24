@@ -78,7 +78,7 @@ public class MatchApp {
             return jres;
         });
 
-        get("logout", (req,res)-> {
+        get("/logout", (req,res)-> {
             String username = userFromCookie(req,res);
             if (username != null) {
                 cookielist.remove("match");
@@ -92,9 +92,9 @@ public class MatchApp {
             String name = req.queryParams("username");
             String pass = req.queryParams("password");
             if (pass.equals("") || name.equals(""))
-                res.redirect("/login.html");
+                res.redirect("/login.html?invalid");
 
-            if(getPassword(name).equals(pass)) {
+            else if(getPassword(name).equals(pass)) {
                 //Set the cookie with their session id. If it already exists in the list use that, otherwise get a new random value
                 if (cookielist.containsKey(name)){
                     res.cookie("match",String.valueOf(cookielist.get(name)));
@@ -108,11 +108,36 @@ public class MatchApp {
 
             }
             else
-                res.redirect("/login.html");
+                res.redirect("/login.html?invalid");
             return 1;
         });
 
         post("/register",(req,res)-> {
+            String name = req.queryParams("username");
+            String pass = req.queryParams("password");
+            String display = req.queryParams("displayName");
+            String about = req.queryParams("aboutMe");
+            String max = req.queryParams("maxTravelDistance");
+            String lat = req.queryParams("latitude");
+            String lon = req.queryParams("longitude");
+            if (getUserList().contains(name)){
+                res.redirect("/register.html?name");
+                return 0;
+            }
+            if (name.equals("") || pass.equals("") || display.equals("") || about.equals("") || max.equals("")) {
+                res.redirect("/register.html?invalid");
+                return 0;
+            }
+            if (lat == null || lon ==null){
+                res.redirect("/register.html?geo");
+                return 0;
+            }
+            try {
+                Double.parseDouble(max);
+            } catch (NumberFormatException e) {
+                res.redirect("/register.html?max");
+                return 0;
+            }
             createUser (
                     req.queryParams("username"),
                     req.queryParams("password"),

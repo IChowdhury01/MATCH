@@ -14,6 +14,24 @@
 <div>
 <a href="./login.html">Log in</a>
 </div>
+<h2><strong style="color: red;" id="invalid" hidden>Please fill out all the fields</strong></h2>
+<script>
+if (location.search=="?invalid"){
+	document.getElementById("invalid").hidden=false;
+	}
+if (location.search=="?geo"){
+	document.getElementById("invalid").hidden=false;
+	document.getElementById("invalid").innerHTML="Please click 'Get Location'.";
+	}
+if (location.search=="?max"){
+	document.getElementById("invalid").hidden=false;
+	document.getElementById("invalid").innerHTML="Travel distance must be a number.";
+	}
+if (location.search=="?name"){
+	document.getElementById("invalid").hidden=false;
+	document.getElementById("invalid").innerHTML="Username already exists.";
+	}
+</script>
 
 <h1>User Registration</h1>
 <form action="http://localhost:8080/register" method="post">
@@ -25,7 +43,7 @@
             </div>
             <div>
                 <label for="password">Password</label>
-                <input name="password" id="password">
+                <input name="password" id="password" type="password">
             </div>
             <div>
                 <label for="displayName">Display Name</label>

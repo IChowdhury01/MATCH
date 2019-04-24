@@ -80,7 +80,6 @@ public class MatchJDBC {
         return users;
     }
 
-
     public static double getMaxTravelDistance(String username) throws SQLException {
         PreparedStatement stmt = c.prepareStatement("SELECT usermaxtraveldistance FROM users WHERE username = ?");
         stmt.setString(1,username);
