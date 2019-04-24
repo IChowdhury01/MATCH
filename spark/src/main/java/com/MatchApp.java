@@ -30,14 +30,14 @@ public class MatchApp {
          * Home page, login, register pages can be static?
          * Profile/Friendslist, Friend profile pages can not?
          */
-        String staticFilesDir = "src/main/resources/";
+        //String staticFilesDir = "src/main/resources/";
 
 
         // Configure Spark's embedded Jetty Web Server
         port(8080);     // To test routes: localhost:8080/<routeURL>
-        staticFiles.location(staticFilesDir);   // Set static files directory
+        staticFiles.location("public");   // Set static files directory
 
-        staticFiles.externalLocation(staticFilesDir);
+        staticFiles.externalLocation("public");
 
 
         // Set up routing
