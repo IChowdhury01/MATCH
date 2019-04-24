@@ -10,7 +10,7 @@ public class MatchJDBC {
 
     static void createSchema () {
         try {
-            c = DriverManager.getConnection("jdbc:mysql://localhost:3306/matchdb","root","");
+            c = DriverManager.getConnection("jdbc:mysql://localhost:3306/","root","");
             //c.setAutoCommit(false);
             stmt = c.createStatement();
             stmt.executeUpdate("DROP DATABASE IF EXISTS matchdb");

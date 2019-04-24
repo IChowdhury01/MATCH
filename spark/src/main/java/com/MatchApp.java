@@ -120,6 +120,7 @@ public class MatchApp {
             String max = req.queryParams("maxTravelDistance");
             String lat = req.queryParams("latitude");
             String lon = req.queryParams("longitude");
+            String hobbies = req.queryParams("swimming")+req.queryParams("reading")+req.queryParams("bike")+req.queryParams("hiking")+req.queryParams("camp")+req.queryParams("dance")+req.queryParams("run")+req.queryParams("games")+req.queryParams("bowl")+req.queryParams("basketball")+req.queryParams("football")+req.queryParams("baseball")+req.queryParams("program")+req.queryParams("TV")+req.queryParams("movies");
             if (getUserList().contains(name)){
                 res.redirect("/register.html?name");
                 return 0;
@@ -128,30 +129,17 @@ public class MatchApp {
                 res.redirect("/register.html?invalid");
                 return 0;
             }
-            if (lat == null || lon ==null){
-                res.redirect("/register.html?geo");
-                return 0;
-            }
             try {
                 Double.parseDouble(max);
             } catch (NumberFormatException e) {
                 res.redirect("/register.html?max");
                 return 0;
             }
-            createUser (
-                    req.queryParams("username"),
-                    req.queryParams("password"),
-                    req.queryParams("displayName"),
-                    req.queryParams("aboutMe"),
-
-                    Double.parseDouble(req.queryParams("maxTravelDistance")),   // queryParams only returns strings
-
-                    // var latitude, longitude - get from register.html script, parse to Double.
-                    Double.parseDouble(req.queryParams("latitude")),
-                    Double.parseDouble(req.queryParams("longitude")),
-
-                    // survey questions - get from radio buttons, parse to Boolean
-                    req.queryParams("swimming")+req.queryParams("reading")+req.queryParams("bike")+req.queryParams("hiking")+req.queryParams("camp")+req.queryParams("dance")+req.queryParams("run")+req.queryParams("games")+req.queryParams("bowl")+req.queryParams("basketball")+req.queryParams("football")+req.queryParams("baseball")+req.queryParams("program")+req.queryParams("TV")+req.queryParams("movies"));
+            if (lat == null || lon ==null){
+                res.redirect("/register.html?geo");
+                return 0;
+            }
+            createUser (name,pass,display,about,Double.parseDouble(max),Double.parseDouble(lat),Double.parseDouble(lon),hobbies);
             res.redirect("/login.html");
             return "Registration Successful";
         });
@@ -207,7 +195,7 @@ public class MatchApp {
         return R * c * 0.621371; // convert to miles
     }
 
-    private static ArrayList<String> findFriends(String username) throws java.sql.SQLException{ //TODO Fix this
+    private static ArrayList<String> findFriends(String username) throws java.sql.SQLException{
         double lat1 = getLatitude(username);
         double long1 = getLongitude(username);
         System.out.println(lat1+ " "+ long1);
