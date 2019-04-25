@@ -9,9 +9,9 @@ public class MatchJDBC {
     public static int usercount;
 
     static void createSchema () {
+        //create schema and table if they don't exist
         try {
             c = DriverManager.getConnection("jdbc:mysql://localhost:3306/?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=EST","root","");
-            //c.setAutoCommit(false);
             stmt = c.createStatement();
 //            stmt.executeUpdate("DROP DATABASE IF EXISTS matchdb"); //uncomment this line if you need to flush the db
             stmt.executeUpdate("CREATE DATABASE IF NOT EXISTS matchdb");
@@ -22,6 +22,7 @@ public class MatchJDBC {
         }
     }
 
+    //the following methods query the db and return a property of the given user
     public static String getDisplayName(String username) throws SQLException {
         PreparedStatement stmt = c.prepareStatement("SELECT userdisplayname FROM users WHERE username = ?");
         stmt.setString(1,username);
@@ -70,15 +71,6 @@ public class MatchJDBC {
         return hobbies;
     }
 
-    public static ArrayList<String> getUserList() throws SQLException {
-        final ResultSet rs = stmt.executeQuery("SELECT username FROM users");
-        ArrayList<String> users = new ArrayList<String>();
-        while(rs.next()) {
-            users.add(rs.getString("username"));
-        }
-        rs.close();
-        return users;
-    }
 
     public static double getMaxTravelDistance(String username) throws SQLException {
         PreparedStatement stmt = c.prepareStatement("SELECT usermaxtraveldistance FROM users WHERE username = ?");
@@ -116,7 +108,18 @@ public class MatchJDBC {
         return longitude;
     }
 
+    //returns an ArrayList of all the users in the db
+    public static ArrayList<String> getUserList() throws SQLException {
+        final ResultSet rs = stmt.executeQuery("SELECT username FROM users");
+        ArrayList<String> users = new ArrayList<String>();
+        while(rs.next()) {
+            users.add(rs.getString("username"));
+        }
+        rs.close();
+        return users;
+    }
 
+    //adds a user to the db
     public static boolean createUser (String username, String password, String displayName, String aboutMe,
             double maxTravelDistance, double latitude, double longitude, String hobbies) {
 
