@@ -10,7 +10,7 @@ public class MatchJDBC {
 
     static void createSchema () {
         try {
-            c = DriverManager.getConnection("jdbc:mysql://localhost:3306/","root","");
+            c = DriverManager.getConnection("jdbc:mysql://localhost:3306/?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=EST","root","");
             //c.setAutoCommit(false);
             stmt = c.createStatement();
 //            stmt.executeUpdate("DROP DATABASE IF EXISTS matchdb"); //uncomment this line if you need to flush the db
