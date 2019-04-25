@@ -13,6 +13,7 @@ import com.google.gson.JsonObject;
 
 import static spark.Spark.*;
 
+
 public class MatchApp {
 
     // Declare dependencies (i.e. classes, interfaces) [OPTIONAL]
@@ -33,10 +34,14 @@ public class MatchApp {
 
         // Configure Spark's embedded Jetty Web Server
         port(8080);     // To test routes: localhost:8080/<routeURL>
+
+        String keyStoreLocation = "localhost.jks";
+        String keyStorePassword = "matchcu";
+        secure(keyStoreLocation, keyStorePassword, null, null);
+
         staticFiles.location("public");   // Set static files directory
 
-        staticFiles.externalLocation("public");
-
+//        staticFiles.externalLocation("public");
 
         // Set up routing
         get("/ping", (req, res)->"Pong\n");
@@ -197,7 +202,6 @@ public class MatchApp {
     private static ArrayList<String> findFriends(String username) throws java.sql.SQLException{
         double lat1 = getLatitude(username);
         double long1 = getLongitude(username);
-        System.out.println(lat1+ " "+ long1);
         double max1 = getMaxTravelDistance(username);
         String hob1 = getHobbies(username);
         ArrayList<String> friends = getUserList();
