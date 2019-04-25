@@ -14,9 +14,9 @@ Hanoch Goldfarb
 ## Tech Stack
 Frontend: HTML/CSS/Javascript
 
-Web Server: Apache HTTP 
+Web Server: Spark 
 
-Server: Java, Apollo-Spotify, JDBC
+Server: Java, Spark, JDBC
 
 Database: MySQL
 
