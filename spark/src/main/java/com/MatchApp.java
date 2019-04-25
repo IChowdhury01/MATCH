@@ -48,17 +48,19 @@ public class MatchApp {
         get("/ping", (req, res)->"Pong\n");
 
 
+        //root url routing
         get("/", (req,res)-> {
             String value = req.cookie("match");
             String username = userFromCookie(req,res);
-            if (username == null)
+            if (username == null) //check if user is logged in
                 res.redirect("/home.html");
             else
                 res.redirect("/welcome.html");
             return username;
         });
 
-        get("/user/:name", (req,res)-> {
+        //these next two are called by js functions and return json objects
+        get("/user/:name", (req,res)-> { //profile page
             String username = req.params(":name");
             res.type("application/json");
             JsonObject jres = new JsonObject();
@@ -66,13 +68,13 @@ public class MatchApp {
             jres.addProperty("AboutMe", getAboutMe(username));
             return jres;
         });
-        get("/friends", (req,res)-> {
-            String username = userFromCookie(req,res);
+        get("/friends", (req,res)-> { //logged in screen / friend list
+            String username = userFromCookie(req,res); //get name of current user
             res.type("application/json");
-            ArrayList<String> friends = findFriends(username);
+            ArrayList<String> friends = findFriends(username); //get list of friends
             JsonArray juser = new JsonArray();
             JsonArray jname = new JsonArray();
-            for (String user : friends) {
+            for (String user : friends) { //for each friend, append their username (for linking) and display name to json arrays
                 juser.add(user);
                 jname.add(getDisplayName(user));
             }
@@ -84,21 +86,21 @@ public class MatchApp {
         });
 
         get("/logout", (req,res)-> {
-            String username = userFromCookie(req,res);
-            if (username != null) {
+            String username = userFromCookie(req,res); //get name of current user
+            if (username != null) { //if a user is logged in, remove the cookie from the db and delete it locally
                 cookielist.remove("match");
                 res.removeCookie("match");
             }
-            res.redirect("/");
+            res.redirect("/"); //go back to login screen
             return "logged out";
         });
 
         post("/login",(req,res)-> {
             String name = req.queryParams("username");
             String pass = req.queryParams("password");
-            if (pass.equals("") || name.equals(""))
+            if (pass.equals("") || name.equals("")) //make sure both fields are filled out
                 res.redirect("/login.html?invalid");
-            else if(getPassword(name).equals(pass))
+            else if(getPassword(name).equals(pass)) //check that the password matches
                 login(res, name);
             else
                 res.redirect("/login.html?invalid");
@@ -114,25 +116,27 @@ public class MatchApp {
             String lat = req.queryParams("latitude");
             String lon = req.queryParams("longitude");
             String hobbies = req.queryParams("swimming")+req.queryParams("reading")+req.queryParams("bike")+req.queryParams("hiking")+req.queryParams("camp")+req.queryParams("dance")+req.queryParams("run")+req.queryParams("games")+req.queryParams("bowl")+req.queryParams("basketball")+req.queryParams("football")+req.queryParams("baseball")+req.queryParams("program")+req.queryParams("TV")+req.queryParams("movies");
-            if (getUserList().contains(name)){
+            if (getUserList().contains(name)){ //check for duplicate user
                 res.redirect("/register.html?name");
                 return 0;
             }
-            if (name.equals("") || pass.equals("") || display.equals("") || about.equals("") || max.equals("")) {
+            if (name.equals("") || pass.equals("") || display.equals("") || about.equals("") || max.equals("")) { //check for empty fields
                 res.redirect("/register.html?invalid");
                 return 0;
             }
-            try {
+            try { //confirm that the max distance is a number
                 Double.parseDouble(max);
             } catch (NumberFormatException e) {
                 res.redirect("/register.html?max");
                 return 0;
             }
-            if (lat == null || lon ==null){
+            if (lat == null || lon ==null){ //check that the gps coords were received
                 res.redirect("/register.html?geo");
                 return 0;
             }
+            //add user to db
             createUser (name,pass,display,about,Double.parseDouble(max),Double.parseDouble(lat),Double.parseDouble(lon),hobbies);
+            //log in
             login(res,name);
             return "Registration Successful";
         });
@@ -143,6 +147,7 @@ public class MatchApp {
 
         // Initialize and test database
         createSchema();
+        //create test users - remove from final implementation
         createUser("test1","jamessmith","James Smith","I like to party",100,40.75,-74.2,"101100000000000");
         createUser("test2","jennygoldstein","Jenny Goldstein","I am sporty",95,40.70,-73.7,"110010000000000");
         createUser("test3","rachelberry","Rachel Berry","I am destined to be a star",105,40.72,-73.9,"010000010001000");
@@ -170,7 +175,7 @@ public class MatchApp {
     }
 
     private static String userFromCookie(spark.Request req,spark.Response res) {
-
+        //look up cookie hash in cookie db to see if user has a valid cookie and return their username
         String value = req.cookie("match");
         if (value == null)
             return null;
@@ -189,6 +194,7 @@ public class MatchApp {
     }
 
     private static double distance(double lat1, double lat2, double long1, double long2) {
+        //returns distance in miles
         //https://stackoverflow.com/questions/3694380/calculating-distance-between-two-points-using-latitude-longitude
 
         final int R = 6371; // Radius of the earth
@@ -207,16 +213,21 @@ public class MatchApp {
         double long1 = getLongitude(username);
         double max1 = getMaxTravelDistance(username);
         String hob1 = getHobbies(username);
+        //get list of all users
         ArrayList<String> friends = getUserList();
+        //remove self
         friends.remove(username);
         if (getDisplayName(username).equals("Sam Keene"))
             return friends; //Keene is guaranteed to find friends
+        //iterate through list
         Iterator<String> it = friends.iterator();
         while (it.hasNext()) {
             String user = it.next();
+            //remove user if they live too far away from either of their max travels
             if (distance(lat1, getLatitude(user), long1, getLongitude(user)) > Math.min(max1, getMaxTravelDistance(user)))
                 it.remove();
             else {
+                //iterate through hobbystring and find the number of hobbies they share
                 String hob2 = getHobbies(user);
                 int shared = 0;
                 for (int i = 0; i < hob1.length(); i++) {
