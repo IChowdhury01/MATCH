@@ -6,15 +6,16 @@
 
 #Server Instructions
 
-1. ssh into the server: `ssh -p5122 cooper@199.98.27.118`
-2. kill current java processes: `killall -9 java`
-3. exit: `exit`
-4. navigate to local /target folder
-5. scp jar to server: `scp -P5122 MATCH-services-1.0-SNAPSHOT.jar cooper@199.98.27.118:~`
-6. ssh into server `ssh -p5122 cooper@199.98.27.118`
-7. run as background process `nohup java -jar MATCH-services-1.0-SNAPSHOT.jar &`
-8. exit: `exit`
-9. Go to https://199.98.27.118:8080/ in browser and click through any warnings
+1. create jar: `mvn package`
+2. ssh into the server: `ssh -p5122 cooper@199.98.27.118`
+3. kill current java processes: `killall -9 java`
+4. exit: `exit`
+5. navigate to local /target folder
+6. scp jar to server: `scp -P5122 MATCH-services-1.0-SNAPSHOT.jar cooper@199.98.27.118:~`
+7. ssh into server `ssh -p5122 cooper@199.98.27.118`
+8. run as background process `nohup java -jar MATCH-services-1.0-SNAPSHOT.jar &`
+9. exit: `exit`
+10. Go to https://199.98.27.118:8080/ in browser and click through any warnings
 
 #Running
 
