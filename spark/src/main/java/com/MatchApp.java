@@ -10,6 +10,7 @@ import static com.MatchJDBC.*;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import spark.Response;
 
 import static spark.Spark.*;
 
@@ -97,20 +98,8 @@ public class MatchApp {
             String pass = req.queryParams("password");
             if (pass.equals("") || name.equals(""))
                 res.redirect("/login.html?invalid");
-
-            else if(getPassword(name).equals(pass)) {
-                //Set the cookie with their session id. If it already exists in the list use that, otherwise get a new random value
-                if (cookielist.containsKey(name)){
-                    res.cookie("match",String.valueOf(cookielist.get(name)));
-                }
-                else {
-                    String cookieid =  String.valueOf( (int) (Math.random() * 9999999));
-                    cookielist.put(name, cookieid);
-                    res.cookie("match",cookieid);
-                }
-                res.redirect("/");
-
-            }
+            else if(getPassword(name).equals(pass))
+                login(res, name);
             else
                 res.redirect("/login.html?invalid");
             return 1;
@@ -144,7 +133,7 @@ public class MatchApp {
                 return 0;
             }
             createUser (name,pass,display,about,Double.parseDouble(max),Double.parseDouble(lat),Double.parseDouble(lon),hobbies);
-            res.redirect("/login.html");
+            login(res,name);
             return "Registration Successful";
         });
 
@@ -166,6 +155,20 @@ public class MatchApp {
         createUser("test10","tomholland","Tom Holland","I am Spiderman",160,41.03,-74.1,"010001010000000");
 
     }
+
+    private static void login(Response res, String name) {
+        //Set the cookie with their session id. If it already exists in the list use that, otherwise get a new random value
+        if (cookielist.containsKey(name)){
+            res.cookie("match",String.valueOf(cookielist.get(name)));
+        }
+        else {
+            String cookieid =  String.valueOf( (int) (Math.random() * 9999999));
+            cookielist.put(name, cookieid);
+            res.cookie("match",cookieid);
+        }
+        res.redirect("/");
+    }
+
     private static String userFromCookie(spark.Request req,spark.Response res) {
 
         String value = req.cookie("match");
