@@ -202,6 +202,7 @@ public class MatchApp {
         double max1 = getMaxTravelDistance(username);
         String hob1 = getHobbies(username);
         ArrayList<String> friends = getUserList();
+        friends.remove(username);
         Iterator<String> it = friends.iterator();
         while (it.hasNext()) {
             String user = it.next();
