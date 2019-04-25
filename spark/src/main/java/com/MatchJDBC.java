@@ -6,17 +6,17 @@ import java.util.ArrayList;
 public class MatchJDBC {
     static Connection c = null;
     static Statement stmt = null;
-    public static int Usercount=0;
+    public static int usercount;
 
     static void createSchema () {
         try {
             c = DriverManager.getConnection("jdbc:mysql://localhost:3306/","root","");
             //c.setAutoCommit(false);
             stmt = c.createStatement();
-            stmt.executeUpdate("DROP DATABASE IF EXISTS matchdb");
-            stmt.executeUpdate("CREATE DATABASE matchdb");
+//            stmt.executeUpdate("DROP DATABASE IF EXISTS matchdb"); //uncomment this line if you need to flush the db
+            stmt.executeUpdate("CREATE DATABASE IF NOT EXISTS matchdb");
             stmt.executeUpdate("USE matchdb");
-            stmt.executeUpdate("CREATE TABLE IF NOT EXISTS users (userid INTEGER PRIMARY KEY NOT NULL, username varchar(30) NOT NULL, userdisplayname varchar(40) NOT NULL, userpassword varchar(50) NOT NULL, usermaxtraveldistance varchar(30) NOT NULL, userlatitude varchar(30) NOT NULL, userlongitude varchar(30) NOT NULL, useraboutMe varchar(1000) NOT NULL, userhobbies varchar(100) NOT NULL)");
+            stmt.executeUpdate("CREATE TABLE IF NOT EXISTS users (username varchar(30) PRIMARY KEY NOT NULL, userdisplayname varchar(40) NOT NULL, userpassword varchar(50) NOT NULL, usermaxtraveldistance varchar(30) NOT NULL, userlatitude varchar(30) NOT NULL, userlongitude varchar(30) NOT NULL, useraboutMe varchar(1000) NOT NULL, userhobbies varchar(100) NOT NULL)");
         } catch (SQLException e) {
             System.err.println("[ERROR] createSchema : " + e.getMessage());
         }
@@ -121,21 +121,21 @@ public class MatchJDBC {
             double maxTravelDistance, double latitude, double longitude, String hobbies) {
 
         try {
-            PreparedStatement usrStmt = c.prepareStatement("INSERT INTO users VALUES(?,?,?,?,?,?,?,?,?)");
-                usrStmt.setInt(1, ++Usercount);
-                usrStmt.setString(2, username);
-                usrStmt.setString(3, displayName);
-                usrStmt.setString(4, password);
-                usrStmt.setDouble(5, maxTravelDistance);
-                usrStmt.setDouble(6, latitude);
-                usrStmt.setDouble(7, longitude);
-                usrStmt.setString(8, aboutMe);
-                usrStmt.setString(9, hobbies);
+            PreparedStatement usrStmt = c.prepareStatement("INSERT INTO users VALUES(?,?,?,?,?,?,?,?)");
+                usrStmt.setString(1, username);
+                usrStmt.setString(2, displayName);
+                usrStmt.setString(3, password);
+                usrStmt.setDouble(4, maxTravelDistance);
+                usrStmt.setDouble(5, latitude);
+                usrStmt.setDouble(6, longitude);
+                usrStmt.setString(7, aboutMe);
+                usrStmt.setString(8, hobbies);
                 usrStmt.executeUpdate();
         } catch (SQLException e) {
             System.err.println("[ERROR] createUser: " + e.getMessage());
+            return false;
         }
-        return false;
+        return true;
     }
 
 }

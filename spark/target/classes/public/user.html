@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="UTF-8">
+  <title>MATCH friends</title>
+</head>
+<body>
+<div>
+<a href="./">Back to friend list</a>
+</div>
+<div>
+<a href="./logout">Logout</a>
+</div>
+
+
+<div>
+<h1 id="DisplayName">Display Name</h1>
+</div>
+
+<div>
+<p id="AboutMe">aboutMe</p>
+</div>
+
+
+<script>
+function getUrlParameter(name) { //https://davidwalsh.name/query-string-javascript
+    name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+    var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+    var results = regex.exec(location.search);
+    return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+};
+
+console.log(getUrlParameter("user"))
+
+var xmlhttp = new XMLHttpRequest();
+xmlhttp.onreadystatechange = function() {
+  if (this.readyState == 4 && this.status == 200) {
+    var myObj = JSON.parse(this.responseText);
+    document.getElementById("DisplayName").innerHTML = myObj.DisplayName;
+    document.getElementById("AboutMe").innerHTML = myObj.AboutMe;
+  }
+};
+xmlhttp.open("GET", "/user/"+getUrlParameter("user"), true);
+xmlhttp.send();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,53 @@
+/* CSS files add styling rules to your content */
+
+@import url('https://fonts.googleapis.com/css?family=Poiret+One');
+@import url('https://fonts.googleapis.com/css?family=Overlock+SC');
+@import url('https://fonts.googleapis.com/css?family=Molengo');
+@import url('https://fonts.googleapis.com/css?family=Alegreya+Sans+SC');
+
+body {
+    font-family: 'Molengo', sans-serif;
+    text-align:center;
+    background-color:black;
+    background-image:url("https://cdn.pixabay.com/photo/2017/09/02/04/35/fire-2706299_960_720.jpg");
+	background-repeat: no-repeat;
+    min-height: 100%;
+    min-width:1024px;
+    width:100%;
+    height:auto;
+    position:fixed;
+    top:0;
+    left:0;
+}
+
+h1 {
+    color:white;
+}
+
+@media only screen and (min-width:769px) {
+    .main {
+        display:flex;
+    }
+}
+
+h2 {
+    color:white;
+}
+
+h3 {
+    color:orange;
+}
+
+
+a {
+    border-color:white;
+}
+
+a:link:hover {
+    color:orange;
+}
+
+a:visited {
+    color:brown;
+}
+

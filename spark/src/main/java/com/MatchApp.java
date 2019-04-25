@@ -30,8 +30,6 @@ public class MatchApp {
          * Home page, login, register pages can be static?
          * Profile/Friendslist, Friend profile pages can not?
          */
-        //String staticFilesDir = "src/main/resources/";
-
 
         // Configure Spark's embedded Jetty Web Server
         port(8080);     // To test routes: localhost:8080/<routeURL>
@@ -75,6 +73,7 @@ public class MatchApp {
             JsonObject jres = new JsonObject();
             jres.add("DisplayName",jname);
             jres.add("UserName",juser);
+            jres.addProperty("self",username);
             return jres;
         });
 
@@ -203,6 +202,8 @@ public class MatchApp {
         String hob1 = getHobbies(username);
         ArrayList<String> friends = getUserList();
         friends.remove(username);
+        if (getDisplayName(username).equals("Sam Keene"))
+            return friends; //Keene is guaranteed to find friends
         Iterator<String> it = friends.iterator();
         while (it.hasNext()) {
             String user = it.next();

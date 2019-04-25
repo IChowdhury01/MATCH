@@ -12,4 +12,4 @@
 
 7. Front end is implemented throughout (including a few pages that interpret jsons from the server), but it's all text-based and unpolished.
 
-8. The main things that still need to be implemented are: image uploads, a prettier Front End, usertests, and the VM.
+8. The main things that still need to be implemented are: image uploads, a prettier Front End, unittests, and the VM.
