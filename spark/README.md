@@ -1,10 +1,12 @@
-#Local Instructions
+Local Instructions
+-
 
 1. Make sure to change the sql credentials in MatchJDBC to match your own.
 
 2. After building and running, go to https://localhost:8080/
 
-#Server Instructions
+Server Instructions
+-
 
 1. create jar: `mvn package`
 2. ssh into the server: `ssh -p5122 cooper@199.98.27.118`
@@ -17,16 +19,23 @@
 9. exit: `exit`
 10. Go to https://199.98.27.118:8080/ in browser and click through any warnings
 
-#Running
+Testing
+-
 
-1. Since you haven't logged in, it redirects you to the sign in page.
+1. Since you haven't logged in, it should redirect you to the sign in page.
 
-2. You can make a new account or you can just sign in as one of the test users. e.g. "test1", pass: "jamessmith"
+2. Click login and try using bad or blank credentials. It should dsplay a warning to user.
 
-3. This will take you back to the root directory, but now that you have a valid cookie the server will recognize you're signed in and redirect to your list of freinds.
+3. Try logging in as a test user. e.g. "test1", pass: "jamessmith" This will take you back to the root directory, but now that you have a valid cookie the server will recognize you're signed in and redirect to your list of freinds. (James Smith has two)
 
-4. When you log out, the cookie will be removed from the server's list and it will no longer recognize you.
+4. Try clicking on the friends profiles, and on James's own profile
 
-5. Front end is implemented throughout (including a few pages that interpret jsons from the server), but it's all text-based and unpolished.
+5. Log out, the cookie will be removed from the server's list and it will no longer recognize you, so it should redirect you to the sign in page again.
 
-6. The main things that still need to be implemented are: image uploads, a prettier Front End, and unittests
+6. Click register and try a)leaving fields blank b)using an already existing username (e.g. test1), c)entering a non-number in max distance, d)not clicking Get Location e)clicking Get Location
+
+7. Make a new account and log in with it.
+
+What's left to implement
+-
+ The main things that still need to be implemented are: image uploads, a prettier Front End, and unittests
