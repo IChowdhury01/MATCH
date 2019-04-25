@@ -1,5 +1,4 @@
 - Data stored for every user
-  - user id (int)
   - username (string)
   - userdisplayname (string)
   - userpassword (string)
@@ -7,9 +6,7 @@
   - userlatitude (double)
   - userlongitude (double)
   - aboutMe/Bio (string)
-- Hobbies - these are all preset 
-  - hobby id (15)
-  - hobby name (15)
+  - Hobbies (15 bit binary string representing the following preset hobbies)
     - Swimming 
     - Reading  
     - Bicycling 
@@ -20,29 +17,24 @@
     - Bowling 
     - Video Games   
     - Programming  
-    -  Reading  
+    - Reading  
     - Watching TV   
     - Going to the Movies       
     - Basketball 
     - Football
-- UserHobbies - mapping table, many to many relationship, join User and Hobby tables
-  - user id
-  - hobby id
-  - <https://stackoverflow.com/questions/20636918/how-to-store-user-interests-in-database?answertab=votes#tab-top>
-  - <http://sqlfiddle.com/#!2/f500a8/6>
-- Friends - one-to-many relationship, links user table back to itself
-  - userid1
-  - userid2
-  - <https://stackoverflow.com/questions/3009190/mysql-friends-table>
 
 ### Methods
 
-- getUser
-  - Takes in string username
-  - Outputs either int, User object, or string
+- createSchema
+  - connects to mysql, creates the db and table if it doesn't exist
 - userLogin
   - Takes in strings name and password
   - Outputs Boolean (true if login success, false if failure)
+- getDisplayName, getPassword, getAboutMe, getHobbies, getMaxTravelDistance, getLatitude, getLongitude
+  - Takes in strings username
+  - Outputs a String or double with the corresponding property of that user in the db
+- getUserList
+  - Outputs an ArrayList of all the username strings in the db
 - createUser
   - Input
     - strings
@@ -50,27 +42,9 @@
       - password
       - displayName
       - aboutMe
+      - hobbies
     - doubles
       - maxTravelDistance
       - latitude
       - longitude
-    - Booleans
-      - swimming
-      - reading
-      - bike
-      - hiking
-      - camp
-      - dance
-      - run
-      - games
-      - bowl
-      - basketball
-      - football
-      - baseball
-      - program
-      - TV
-      - moveis
   - Output boolean
-- initDatabase
-  - input nothing
-  - output boolean
