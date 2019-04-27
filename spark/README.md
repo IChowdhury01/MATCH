@@ -9,7 +9,7 @@ Server Instructions
 -
 Password: cuece366match
 
-1. create jar: `mvn package`
+1. create jar: `mvn clean package`
 2. ssh into the server: `ssh -p5122 cooper@199.98.27.118`
 3. kill current java processes: `killall -9 java`
 4. exit: `exit`
@@ -39,4 +39,4 @@ Testing
 
 What's left to implement
 -
- The main things that still need to be implemented are: image uploads, a prettier Front End, and unittests
+ The main things that still need to be implemented are: image uploads, concurrent user requests, and unittests

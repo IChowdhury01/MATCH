@@ -53,6 +53,9 @@ public class MatchApp {
         //these next two are called by js functions and return json objects
         get("/user/:name", (req,res)-> { //profile page
             String username = req.params(":name");
+            String userPhotoPath = getPhoto(username);  // Get path to user's uploaded photo from database
+            // TODO: display image on user webpage, using html: <img src='" + userPhotoPath + "'>"
+
             res.type("application/json");
             JsonObject jres = new JsonObject();
             jres.addProperty("DisplayName", getDisplayName(username));
