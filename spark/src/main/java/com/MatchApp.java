@@ -152,7 +152,7 @@ public class MatchApp {
             uploadPhoto(tempFile.getFileName().toString(), username);   // Add string containing path to database PHOTO field
 
 
-//            res.redirect("/welcome.html");  // Refresh page
+            res.redirect("/welcome.html");  // Refresh page
             return "<h1>You uploaded this image:<h1><img src='" + tempFile.getFileName().toString() + "'>";
         });
 
