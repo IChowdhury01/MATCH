@@ -7,6 +7,7 @@ Local Instructions
 
 Server Instructions
 -
+Password: cuece366match
 
 1. create jar: `mvn package`
 2. ssh into the server: `ssh -p5122 cooper@199.98.27.118`

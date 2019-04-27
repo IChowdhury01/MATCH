@@ -1,42 +1,59 @@
 <!DOCTYPE HTML>
 <html lang = "en">
 <head>
+    <link rel="icon"
+          type="image/png"
+          href="https://sitejerk.com/images/matches-png-18.png">
+
 
     <title>Match Signup</title>
     <meta charset = "UTF-8" />
+    <link href="style.css" rel="stylesheet" type = "text/css">
+    <style>
+        html{
+            background-image: url(https://thefreshtoast.com/wp-content/uploads/2016/12/4-easy-new-years-resolutions-for-the-weed-aficionado.jpg);
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-attachment: fixed;
+            color:black;
+        }
 
+    </style>
 </head>
 
-<body
-<div>
-<a href="./home.html">Home Page</a>
-</div>
-<div>
-<a href="./login.html">Log in</a>
+<body>
+<div class = "navbar">
+    <a href="./home.html">MATCH</a><img src="https://sitejerk.com/images/matches-png-18.png" alt="matchlogo" style = "margin-left:1%; width:40px;height:40px;">
+    <a href="./login.html" style="font-size:20px;">
+        <br>
+        Already have an account?
+        Log in
+    </a>
 </div>
 <h2><strong style="color: red;" id="invalid" hidden>Please fill out all the fields</strong></h2>
 <script>
-if (location.search=="?invalid"){
-	document.getElementById("invalid").hidden=false;
-	}
-if (location.search=="?geo"){
-	document.getElementById("invalid").hidden=false;
-	document.getElementById("invalid").innerHTML="Please click 'Get Location'.";
-	}
-if (location.search=="?max"){
-	document.getElementById("invalid").hidden=false;
-	document.getElementById("invalid").innerHTML="Travel distance must be a number.";
-	}
-if (location.search=="?name"){
-	document.getElementById("invalid").hidden=false;
-	document.getElementById("invalid").innerHTML="Username already exists.";
-	}
+    if (location.search=="?invalid"){
+        document.getElementById("invalid").hidden=false;
+    }
+    if (location.search=="?geo"){
+        document.getElementById("invalid").hidden=false;
+        document.getElementById("invalid").innerHTML="Please click 'Get Location'.";
+    }
+    if (location.search=="?max"){
+        document.getElementById("invalid").hidden=false;
+        document.getElementById("invalid").innerHTML="Travel distance must be a number.";
+    }
+    if (location.search=="?name"){
+        document.getElementById("invalid").hidden=false;
+        document.getElementById("invalid").innerHTML="Username already exists.";
+    }
 </script>
 
-<h1>User Registration</h1>
-<form action="http://localhost:8080/register" method="post">
-    <fieldset>
-        <legend>Personal Info</legend>
+<h1 class="signup-h1">User Registration</h1>
+<div class="signup-header">
+    <form action="./register" method="post">
+        <fieldset>
+            <legend><span style="background-color: white"> Personal Info </span></legend>
             <div>
                 <label for="username">Username</label>
                 <input name="username" id="username">
@@ -53,279 +70,280 @@ if (location.search=="?name"){
                 <p>Write something about yourself!</p>
                 <textarea name="aboutMe" rows="10" cols="50"></textarea>
             </div>
-    </fieldset>
+        </fieldset>
 
-    <fieldset>
-        <legend>Location</legend>
-        <p>We need your current location to match you with nearby friends.
+        <fieldset>
+            <legend> <span style="background-color: white">Location</span></legend>
+            <p>We need your current location to match you with nearby friends. </p>
             <input id=loc type="button" onclick="getLocation();" value="Get Location"/>
-			<script>
-			var latitude = 0.0;
-			var longitude = 0.0;
-         function showLocation(position) {
-            latitude = position.coords.latitude;
-            longitude = position.coords.longitude;
-            console.log("Latitude : " + latitude + " Longitude: " + longitude);
-			lat = document.createElement('input');
-			lat.type = 'hidden';
-			lat.name = 'latitude';
-			lat.value = latitude;
-			document.getElementById('loc').appendChild(lat);
-			lon = document.createElement('input');
-			lon.type = 'hidden';
-			lon.name = 'longitude';
-			lon.value = longitude;
-			document.getElementById('loc').appendChild(lon);
+            <script>
+                var latitude = 0.0;
+                var longitude = 0.0;
+                function showLocation(position) {
+                    latitude = position.coords.latitude;
+                    longitude = position.coords.longitude;
+                    console.log("Latitude : " + latitude + " Longitude: " + longitude);
+                    lat = document.createElement('input');
+                    lat.type = 'hidden';
+                    lat.name = 'latitude';
+                    lat.value = latitude;
+                    document.getElementById('loc').appendChild(lat);
+                    lon = document.createElement('input');
+                    lon.type = 'hidden';
+                    lon.name = 'longitude';
+                    lon.value = longitude;
+                    document.getElementById('loc').appendChild(lon);
 
-		}
-         function errorHandler(err) {
-            if(err.code == 1) {
-               alert("Error: Access is denied!");
-            } else if( err.code == 2) {
-               alert("Error: Position is unavailable!");
-            }
-         }
-         function getLocation(){
-            if(navigator.geolocation){
-               // timeout at 10000 milliseconds (10 seconds)
-               var options = {timeout:10000};
-               navigator.geolocation.getCurrentPosition
+                }
+                function errorHandler(err) {
+                    if(err.code == 1) {
+                        alert("Error: Access is denied!");
+                    } else if( err.code == 2) {
+                        alert("Error: Position is unavailable!");
+                    }
+                }
+                function getLocation(){
+                    if(navigator.geolocation){
+                        // timeout at 10000 milliseconds (10 seconds)
+                        var options = {timeout:10000};
+                        navigator.geolocation.getCurrentPosition
 
-               <!--Show Location in browser alert-->
-               (showLocation, errorHandler, options);
-            } else{
-               alert("Sorry, browser does not support geolocation!");
-            }
-         }
-			
-			</script>
-        </p>
+                        <!--Show Location in browser alert-->
+                        (showLocation, errorHandler, options);
+                    } else{
+                        alert("Sorry, browser does not support geolocation!");
+                    }
+                }
 
-        <div>
-            <label for="maxTravelDistance">How many miles will you travel to find YOUR friend?</label>
-            <input name="maxTravelDistance" id="maxTravelDistance">
-        </div>
-    </fieldset>
-    <fieldset>
-        <legend>Hobbies & Interests Survey</legend>
-        <p> Fill out this short survey to be matched with others that share your hobbies. Answers are checked no by default.</p>
-        <p>
-            <label>Do you enjoy swimming?</label>
-            <input type = "radio"
-                   name = "swimming"
-                   id = "swimmingNo"
-                   value = "0"
-                   checked = "checked" />
-            <label for = "swimmingNo">No</label>
-            <input type = "radio"
-                   name = "swimming"
-                   id = "swimmingYes"
-                   value = "1" />
-            <label for = "swimmingYes">Yes</label>
-        </p>
-        <p>
-            <label>Do you like to read?</label>
-            <input type = "radio"
-                   name = "reading"
-                   id = "readingNo"
-                   value = "0"
-                   checked = "checked" />
-            <label for = "readingNo">No</label>
-            <input type = "radio"
-                   name = "reading"
-                   id = "readingYes"
-                   value = "1" />
-            <label for = "readingYes">Yes</label>
-        </p>
+            </script>
+            </p>
 
-        <p>
-            <label>Do you enjoy riding bicycles?</label>
-            <input type = "radio"
-                   name = "bike"
-                   id = "bikeNo"
-                   value = "0"
-                   checked = "checked" />
-            <label for = "bikeNo">No</label>
-            <input type = "radio"
-                   name = "bike"
-                   id = "bikeYes"
-                   value = "1" />
-            <label for = "bikeYes">Yes</label>
-        </p>
+            <div>
+                <label for="maxTravelDistance">How many miles will you travel to find YOUR friend?</label>
+                <input name="maxTravelDistance" id="maxTravelDistance">
+            </div>
+        </fieldset>
+        <fieldset>
+            <legend><span style="background-color: white">Hobbies & Interests Survey</span></legend>
+            <p> Fill out this short survey to be matched with others that share your hobbies. Answers are checked no by default.</p>
+            <p>
+                <label>Do you enjoy swimming?</label>
+                <input type = "radio"
+                       name = "swimming"
+                       id = "swimmingNo"
+                       value = "0"
+                       checked = "checked" />
+                <label for = "swimmingNo">No</label>
+                <input type = "radio"
+                       name = "swimming"
+                       id = "swimmingYes"
+                       value = "1" />
+                <label for = "swimmingYes">Yes</label>
+            </p>
+            <p>
+                <label>Do you like to read?</label>
+                <input type = "radio"
+                       name = "reading"
+                       id = "readingNo"
+                       value = "0"
+                       checked = "checked" />
+                <label for = "readingNo">No</label>
+                <input type = "radio"
+                       name = "reading"
+                       id = "readingYes"
+                       value = "1" />
+                <label for = "readingYes">Yes</label>
+            </p>
 
-        <p>
-            <label>Do you enjoy hiking?</label>
-            <input type = "radio"
-                   name = "hiking"
-                   id = "hikingNo"
-                   value = "0"
-                   checked = "checked" />
-            <label for = "hikingNo">No</label>
-            <input type = "radio"
-                   name = "hiking"
-                   id = "hikingYes"
-                   value = "1" />
-            <label for = "hikingYes">Yes</label>
-        </p>
-        <p>
-            <label>Do you enjoy camping?</label>
-            <input type = "radio"
-                   name = "camp"
-                   id = "campNo"
-                   value = "0"
-                   checked = "checked" />
-            <label for = "campNo">No</label>
-            <input type = "radio"
-                   name = "camp"
-                   id = "campYes"
-                   value = "1" />
-            <label for = "campYes">Yes</label>
-        </p>
-        <p>
-            <label>Do you enjoy dancing?</label>
-            <input type = "radio"
-                   name = "dance"
-                   id = "danceNo"
-                   value = "0"
-                   checked = "checked" />
-            <label for = "danceNo">No</label>
-            <input type = "radio"
-                   name = "dance"
-                   id = "danceYes"
-                   value = "1" />
-            <label for = "danceYes">Yes</label>
-        </p>
-        <p>
-            <label>Do you enjoy going for runs or jogging?</label>
-            <input type = "radio"
-                   name = "run"
-                   id = "runNo"
-                   value = "0"
-                   checked = "checked" />
-            <label for = "runNo">No</label>
-            <input type = "radio"
-                   name = "run"
-                   id = "runYes"
-                   value = "1" />
-            <label for = "runYes">Yes</label>
-        </p>
-        <p>
-            <label>Do you like to play video games?</label>
-            <input type = "radio"
-                   name = "games"
-                   id = "gamesNo"
-                   value = "0"
-                   checked = "checked" />
-            <label for = "gamesNo">No</label>
-            <input type = "radio"
-                   name = "games"
-                   id = "gamesYes"
-                   value = "1" />
-            <label for = "gamesYes">Yes</label>
-        </p>
-        <p>
-            <label>Do you like bowling?</label>
-            <input type = "radio"
-                   name = "bowl"
-                   id = "bowlNo"
-                   value = "0"
-                   checked = "checked" />
-            <label for = "bowlNo">No</label>
-            <input type = "radio"
-                   name = "bowl"
-                   id = "bowlYes"
-                   value = "1" />
-            <label for = "bowlYes">Yes</label>
-        </p>
-        <p>
-            <label>Do you like basketball?</label>
-            <input type = "radio"
-                   name = "basketball"
-                   id = "basketballNo"
-                   value = "0"
-                   checked = "checked" />
-            <label for = "basketballNo">No</label>
-            <input type = "radio"
-                   name = "basketball"
-                   id = "basketballYes"
-                   value = "1" />
-            <label for = "basketballYes">Yes</label>
-        </p>
-        <p>
-            <label>Do you like football?</label>
-            <input type = "radio"
-                   name = "football"
-                   id = "footballNo"
-                   value = "0"
-                   checked = "checked" />
-            <label for = "footballNo">No</label>
-            <input type = "radio"
-                   name = "football"
-                   id = "footballYes"
-                   value = "1" />
-            <label for = "footballYes">Yes</label>
-        </p>
-        <p>
-            <label>Do you like baseball?</label>
-            <input type = "radio"
-                   name = "baseball"
-                   id = "baseballNo"
-                   value = "0"
-                   checked = "checked" />
-            <label for = "baseballNo">No</label>
-            <input type = "radio"
-                   name = "baseball"
-                   id = "baseballYes"
-                   value = "1" />
-            <label for = "baseballYes">Yes</label>
-        </p>
-        <p>
-            <label>Do you enjoy programming?</label>
-            <input type = "radio"
-                   name = "program"
-                   id = "programNo"
-                   value = "0"
-                   checked = "checked" />
-            <label for = "programNo">No</label>
-            <input type = "radio"
-                   name = "program"
-                   id = "programYes"
-                   value = "1" />
-            <label for = "programYes">Yes</label>
-        </p>
-        <p>
-            <label>Do you like to watch TV shows?</label>
-            <input type = "radio"
-                   name = "TV"
-                   id = "TVNo"
-                   value = "0"
-                   checked = "checked" />
-            <label for = "TVNo">No</label>
-            <input type = "radio"
-                   name = "TV"
-                   id = "TVYes"
-                   value = "1" />
-            <label for = "TVYes">Yes</label>
-        </p>
-        <p>
-            <label>Do you enjoy going to the movies?</label>
-            <input type = "radio"
-                   name = "movies"
-                   id = "moviesNo"
-                   value = "0"
-                   checked = "checked" />
-            <label for = "moviesNo">No</label>
-            <input type = "radio"
-                   name = "movies"
-                   id = "moviesYes"
-                   value = "1" />
-            <label for = "moviesYes">Yes</label>
-        </p>
-    </fieldset>
-    <br>
-    <div align="center">
-        <input type="submit" name="register_button" value="Register" />
-    </div>
+            <p>
+                <label>Do you enjoy riding bicycles?</label>
+                <input type = "radio"
+                       name = "bike"
+                       id = "bikeNo"
+                       value = "0"
+                       checked = "checked" />
+                <label for = "bikeNo">No</label>
+                <input type = "radio"
+                       name = "bike"
+                       id = "bikeYes"
+                       value = "1" />
+                <label for = "bikeYes">Yes</label>
+            </p>
+
+            <p>
+                <label>Do you enjoy hiking?</label>
+                <input type = "radio"
+                       name = "hiking"
+                       id = "hikingNo"
+                       value = "0"
+                       checked = "checked" />
+                <label for = "hikingNo">No</label>
+                <input type = "radio"
+                       name = "hiking"
+                       id = "hikingYes"
+                       value = "1" />
+                <label for = "hikingYes">Yes</label>
+            </p>
+            <p>
+                <label>Do you enjoy camping?</label>
+                <input type = "radio"
+                       name = "camp"
+                       id = "campNo"
+                       value = "0"
+                       checked = "checked" />
+                <label for = "campNo">No</label>
+                <input type = "radio"
+                       name = "camp"
+                       id = "campYes"
+                       value = "1" />
+                <label for = "campYes">Yes</label>
+            </p>
+            <p>
+                <label>Do you enjoy dancing?</label>
+                <input type = "radio"
+                       name = "dance"
+                       id = "danceNo"
+                       value = "0"
+                       checked = "checked" />
+                <label for = "danceNo">No</label>
+                <input type = "radio"
+                       name = "dance"
+                       id = "danceYes"
+                       value = "1" />
+                <label for = "danceYes">Yes</label>
+            </p>
+            <p>
+                <label>Do you enjoy going for runs or jogging?</label>
+                <input type = "radio"
+                       name = "run"
+                       id = "runNo"
+                       value = "0"
+                       checked = "checked" />
+                <label for = "runNo">No</label>
+                <input type = "radio"
+                       name = "run"
+                       id = "runYes"
+                       value = "1" />
+                <label for = "runYes">Yes</label>
+            </p>
+            <p>
+                <label>Do you like to play video games?</label>
+                <input type = "radio"
+                       name = "games"
+                       id = "gamesNo"
+                       value = "0"
+                       checked = "checked" />
+                <label for = "gamesNo">No</label>
+                <input type = "radio"
+                       name = "games"
+                       id = "gamesYes"
+                       value = "1" />
+                <label for = "gamesYes">Yes</label>
+            </p>
+            <p>
+                <label>Do you like bowling?</label>
+                <input type = "radio"
+                       name = "bowl"
+                       id = "bowlNo"
+                       value = "0"
+                       checked = "checked" />
+                <label for = "bowlNo">No</label>
+                <input type = "radio"
+                       name = "bowl"
+                       id = "bowlYes"
+                       value = "1" />
+                <label for = "bowlYes">Yes</label>
+            </p>
+            <p>
+                <label>Do you like basketball?</label>
+                <input type = "radio"
+                       name = "basketball"
+                       id = "basketballNo"
+                       value = "0"
+                       checked = "checked" />
+                <label for = "basketballNo">No</label>
+                <input type = "radio"
+                       name = "basketball"
+                       id = "basketballYes"
+                       value = "1" />
+                <label for = "basketballYes">Yes</label>
+            </p>
+            <p>
+                <label>Do you like football?</label>
+                <input type = "radio"
+                       name = "football"
+                       id = "footballNo"
+                       value = "0"
+                       checked = "checked" />
+                <label for = "footballNo">No</label>
+                <input type = "radio"
+                       name = "football"
+                       id = "footballYes"
+                       value = "1" />
+                <label for = "footballYes">Yes</label>
+            </p>
+            <p>
+                <label>Do you like baseball?</label>
+                <input type = "radio"
+                       name = "baseball"
+                       id = "baseballNo"
+                       value = "0"
+                       checked = "checked" />
+                <label for = "baseballNo">No</label>
+                <input type = "radio"
+                       name = "baseball"
+                       id = "baseballYes"
+                       value = "1" />
+                <label for = "baseballYes">Yes</label>
+            </p>
+            <p>
+                <label>Do you enjoy programming?</label>
+                <input type = "radio"
+                       name = "program"
+                       id = "programNo"
+                       value = "0"
+                       checked = "checked" />
+                <label for = "programNo">No</label>
+                <input type = "radio"
+                       name = "program"
+                       id = "programYes"
+                       value = "1" />
+                <label for = "programYes">Yes</label>
+            </p>
+            <p>
+                <label>Do you like to watch TV shows?</label>
+                <input type = "radio"
+                       name = "TV"
+                       id = "TVNo"
+                       value = "0"
+                       checked = "checked" />
+                <label for = "TVNo">No</label>
+                <input type = "radio"
+                       name = "TV"
+                       id = "TVYes"
+                       value = "1" />
+                <label for = "TVYes">Yes</label>
+            </p>
+            <p>
+                <label>Do you enjoy going to the movies?</label>
+                <input type = "radio"
+                       name = "movies"
+                       id = "moviesNo"
+                       value = "0"
+                       checked = "checked" />
+                <label for = "moviesNo">No</label>
+                <input type = "radio"
+                       name = "movies"
+                       id = "moviesYes"
+                       value = "1" />
+                <label for = "moviesYes">Yes</label>
+            </p>
+        </fieldset>
+</div>
+<br>
+<div align="center">
+    <input type="submit" name="register_button" value="Register" id="submitbutton" style="font-size:20px;"/>
+</div>
 </form>
 </body>
 </html>
