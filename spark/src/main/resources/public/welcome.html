@@ -19,12 +19,24 @@
 </head>
 <body>
 <div class = "navbar" style="width:50%;">
-  <a href="./home.html">MATCH</a><img src="https://sitejerk.com/images/matches-png-18.png" alt="matchlogo" style = "margin-left:1%; width:40px;height:40px;">
+  <a>MATCH</a><img src="https://sitejerk.com/images/matches-png-18.png" alt="matchlogo" style = "margin-left:1%; width:40px;height:40px;">
   <div>
     <a id=self style="font-size:20px;">View profile</a>
     <a href="./logout" style="font-size:20px;">- Logout</a>
   </div>
 </div>
+
+<!--HTML Form to choose and upload profile picture-->
+<!--TODO Fix style around HTML form-->
+<div>
+  <h3>Choose your Profile Picture</h3>
+  <form action=./upload method='post' enctype='multipart/form-data'>
+    <input type='file' name='UploadedPhoto' accept='image/*'>
+    <button>Upload Photo</button>
+  </form>
+</div>
+
+
 <div>
   <h1 style="font-size:300%; color:white;">These are your Friends:</h1>
 </div>

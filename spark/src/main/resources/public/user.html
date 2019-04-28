@@ -16,7 +16,7 @@
 <body>
 <div class="user-header">
   <div class = "navbar" style="width:50%;">
-    <a href="./home.html">MATCH</a><img src="https://sitejerk.com/images/matches-png-18.png" alt="matchlogo" style = "margin-left:1%; width:40px;height:40px;">
+    <a>MATCH</a><img src="https://sitejerk.com/images/matches-png-18.png" alt="matchlogo" style = "margin-left:1%; width:40px;height:40px;">
   </div>
   <a href="./login.html" style="font-size:20px;">
     <div class="top-user">
@@ -28,6 +28,9 @@
     <div>
       <h1 id="DisplayName" style="font-size:400%;">Display Name</h1>
     </div>
+</div>
+<div>
+  <img id = "img">
 </div>
 <div>
   <p id="AboutMe">aboutMe</p>
@@ -50,6 +53,9 @@
       var myObj = JSON.parse(this.responseText);
       document.getElementById("DisplayName").innerHTML = myObj.DisplayName;
       document.getElementById("AboutMe").innerHTML = myObj.AboutMe;
+	  if (myObj.PhotoPath != null)
+		{console.log(myObj.PhotoPath,myObj.PhotoPath != null);
+		document.getElementById("img").src= myObj.PhotoPath;}
     }
   };
   xmlhttp.open("GET", "/user/"+getUrlParameter("user"), true);
