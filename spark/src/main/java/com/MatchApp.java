@@ -17,6 +17,7 @@ import java.util.Iterator;
 
 import static com.MatchJDBC.*;
 import static spark.Spark.*;
+import static spark.debug.DebugScreen.*;
 
 
 public class MatchApp {
@@ -25,6 +26,7 @@ public class MatchApp {
 
     public static void main(String[] args) {
 
+        enableDebugScreen();
         // Configure Spark's embedded Jetty Web Server
         port(8080);
 
@@ -34,7 +36,9 @@ public class MatchApp {
 
         staticFiles.location("public");   // Set static files directory
 
-        File uploadDir = new File("src/main/resources/uploads");    // Path to directory that will hold uploaded photos
+        staticFiles.externalLocation("uploads");
+
+        File uploadDir = new File("uploads");    // Path to directory that will hold uploaded photos
         uploadDir.mkdir(); // Create uploads directory if it doesn't exist
 
         // Set up routing
@@ -53,13 +57,12 @@ public class MatchApp {
         //these next two are called by js functions and return json objects
         get("/user/:name", (req,res)-> { //profile page
             String username = req.params(":name");
-            String userPhotoPath = getPhoto(username);  // Get path to user's uploaded photo from database
-            // TODO: display image on user webpage, using html: <img src='" + userPhotoPath + "'>"
 
             res.type("application/json");
             JsonObject jres = new JsonObject();
             jres.addProperty("DisplayName", getDisplayName(username));
             jres.addProperty("AboutMe", getAboutMe(username));
+            jres.addProperty("PhotoPath", getPhoto(username));
             return jres;
         });
         get("/friends", (req,res)-> { //logged in screen / friend list
@@ -137,7 +140,7 @@ public class MatchApp {
 
 
         // Image Upload routing
-        post("/friends", (req, res) -> {    // Post request at friends list page (welcome.html)
+        post("/upload", (req, res) -> {    // Post request at friends list page (welcome.html)
 
             // Create a temporary file in the upload directory. tempFile is the path to that file
             Path tempFile = Files.createTempFile(uploadDir.toPath(), "", "");
@@ -151,11 +154,9 @@ public class MatchApp {
             String username = userFromCookie(req,res);  // Get username of current user
             uploadPhoto(tempFile.getFileName().toString(), username);   // Add string containing path to database PHOTO field
 
-
-            res.redirect("/welcome.html");  // Refresh page
-            return "<h1>You uploaded this image:<h1><img src='" + tempFile.getFileName().toString() + "'>";
+            res.redirect("/user.html?user="+username);  // Refresh page
+            return 1;
         });
-
 
 
         // Initialize and test database
