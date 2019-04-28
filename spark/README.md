@@ -3,7 +3,9 @@ Local Instructions
 
 1. Make sure to change the sql credentials in MatchJDBC to match your own.
 
-2. After building and running, go to https://localhost:8080/
+2. Right click on the MatchApp class in Maven and select run.
+
+3. After building and running, go to https://localhost:8080/
 
 Server Instructions
 -
@@ -31,12 +33,14 @@ Testing
 
 4. Try clicking on the friends profiles, and on James's own profile
 
-5. Log out, the cookie will be removed from the server's list and it will no longer recognize you, so it should redirect you to the sign in page again.
+5. Try uploading an image.
 
-6. Click register and try a)leaving fields blank b)using an already existing username (e.g. test1), c)entering a non-number in max distance, d)not clicking Get Location e)clicking Get Location
+6. Log out, the cookie will be removed from the server's list and it will no longer recognize you, so it should redirect you to the sign in page again.
 
-7. Make a new account and log in with it.
+7. Click register and try a)leaving fields blank b)using an already existing username (e.g. test1), c)entering a non-number in max distance, d)not clicking Get Location e)clicking Get Location
+
+8. Make a new account and log in with it.
 
 What's left to implement
 -
- The main things that still need to be implemented are: image uploads, concurrent user requests, and unittests
+ The main things that still need to be implemented are: concurrent user requests, and unittests
