@@ -163,8 +163,18 @@ public class MatchApp {
             return 1;
         });
 
+        post("/reject", (req, res) -> {
+            String user1 = req.queryParams("name");
+            String user2 = userFromCookie(req,res);
+            addEnemy(user1,user2);
+            addEnemy(user2,user1);
+            res.redirect("/");
+            return 1;
+        });
 
-        // Initialize and test database
+
+
+            // Initialize and test database
         createSchema();
         //create test users - remove from final implementation
         createUser("test1",getSaltedHash("jamessmith"),"James Smith","I like to party",100,40.75,-74.2,"101100000000000");
@@ -236,6 +246,10 @@ public class MatchApp {
         ArrayList<String> friends = getUserList();
         //remove self
         friends.remove(username);
+        for (String enemy : getEnemies(username).split(",")) {
+            friends.remove(enemy);
+        }
+
         if (getDisplayName(username).equals("Sam Keene"))
             return friends; //Keene is guaranteed to find friends
         //iterate through list

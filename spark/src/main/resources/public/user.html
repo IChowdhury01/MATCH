@@ -35,6 +35,19 @@
 <div>
   <p id="AboutMe">aboutMe</p>
 </div>
+  <form action="./reject" method="post">
+    <div hidden>
+      <label for="name">name:</label>
+      <input name="name" id="name">
+    </div>
+    <div>
+      <button>Reject</button>
+    </div>
+    <div>
+      <a style="color:black;" href="./register.html">Register a new account.</a>
+    </div>
+  </form>
+
 
 
 <script>
@@ -44,8 +57,8 @@
     var results = regex.exec(location.search);
     return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
   };
-
-  console.log(getUrlParameter("user"))
+  
+  document.getElementById("name").value=getUrlParameter("user");
 
   var xmlhttp = new XMLHttpRequest();
   xmlhttp.onreadystatechange = function() {

@@ -16,7 +16,7 @@ public class MatchJDBC {
             stmt.executeUpdate("DROP DATABASE IF EXISTS matchdb"); // TODO: Delete this line after app is complete
             stmt.executeUpdate("CREATE DATABASE IF NOT EXISTS matchdb");
             stmt.executeUpdate("USE matchdb");
-            stmt.executeUpdate("CREATE TABLE IF NOT EXISTS users (username varchar(30) PRIMARY KEY NOT NULL, userdisplayname varchar(40) NOT NULL, userhash varchar(100) NOT NULL, usermaxtraveldistance varchar(30) NOT NULL, userlatitude varchar(30) NOT NULL, userlongitude varchar(30) NOT NULL, useraboutMe varchar(1000) NOT NULL, userhobbies varchar(100) NOT NULL, userPHOTO varchar(100))");
+            stmt.executeUpdate("CREATE TABLE IF NOT EXISTS users (username varchar(30) PRIMARY KEY NOT NULL, userdisplayname varchar(40) NOT NULL, userhash varchar(100) NOT NULL, usermaxtraveldistance varchar(30) NOT NULL, userlatitude varchar(30) NOT NULL, userlongitude varchar(30) NOT NULL, useraboutMe varchar(1000) NOT NULL, userhobbies varchar(100) NOT NULL, userPHOTO varchar(100), userenemies varchar(500))");
         } catch (SQLException e) {
             System.err.println("[ERROR] createSchema : " + e.getMessage());
         }
@@ -108,6 +108,31 @@ public class MatchJDBC {
         return longitude;
     }
 
+    public static String getEnemies(String username) throws SQLException {
+        PreparedStatement stmt = c.prepareStatement("SELECT userenemies FROM users WHERE username = ?");
+        stmt.setString(1,username);
+        final ResultSet rs = stmt.executeQuery();
+        String enemies="";
+        while(rs.next()) {
+            enemies = rs.getString("userenemies");
+        }
+        rs.close();
+        return enemies;
+    }
+
+    public static boolean addEnemy(String username, String enemy) throws SQLException {
+        try {
+            PreparedStatement stmt = c.prepareStatement("UPDATE users SET userenemies = ? WHERE username = ?");
+            stmt.setString(1, getEnemies(username) + "," + enemy);
+            stmt.setString(2, username);
+            stmt.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            System.err.println("[ERROR] addEnemy: " + e.getMessage());
+            return false;
+        }
+    }
+
     //returns an ArrayList of all the users in the db
     public static ArrayList<String> getUserList() throws SQLException {
         final ResultSet rs = stmt.executeQuery("SELECT username FROM users");
@@ -124,7 +149,7 @@ public class MatchJDBC {
                                       double maxTravelDistance, double latitude, double longitude, String hobbies) {
 
         try {
-            PreparedStatement usrStmt = c.prepareStatement("INSERT INTO users(username, userdisplayname, userhash, usermaxtraveldistance, userlatitude, userlongitude, useraboutMe, userhobbies) VALUES(?,?,?,?,?,?,?,?)");
+            PreparedStatement usrStmt = c.prepareStatement("INSERT INTO users(username, userdisplayname, userhash, usermaxtraveldistance, userlatitude, userlongitude, useraboutMe, userhobbies,userenemies) VALUES(?,?,?,?,?,?,?,?,?)");
             usrStmt.setString(1, username);
             usrStmt.setString(2, displayName);
             usrStmt.setString(3, hash);
@@ -133,6 +158,7 @@ public class MatchJDBC {
             usrStmt.setDouble(6, longitude);
             usrStmt.setString(7, aboutMe);
             usrStmt.setString(8, hobbies);
+            usrStmt.setString(9, "");
             usrStmt.executeUpdate();
         } catch (SQLException e) {
             System.err.println("[ERROR] createUser: " + e.getMessage());
