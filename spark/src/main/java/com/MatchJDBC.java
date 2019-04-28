@@ -16,7 +16,7 @@ public class MatchJDBC {
             stmt.executeUpdate("DROP DATABASE IF EXISTS matchdb"); // TODO: Delete this line after app is complete
             stmt.executeUpdate("CREATE DATABASE IF NOT EXISTS matchdb");
             stmt.executeUpdate("USE matchdb");
-            stmt.executeUpdate("CREATE TABLE IF NOT EXISTS users (username varchar(30) PRIMARY KEY NOT NULL, userdisplayname varchar(40) NOT NULL, userpassword varchar(50) NOT NULL, usermaxtraveldistance varchar(30) NOT NULL, userlatitude varchar(30) NOT NULL, userlongitude varchar(30) NOT NULL, useraboutMe varchar(1000) NOT NULL, userhobbies varchar(100) NOT NULL, userPHOTO varchar(100))");
+            stmt.executeUpdate("CREATE TABLE IF NOT EXISTS users (username varchar(30) PRIMARY KEY NOT NULL, userdisplayname varchar(40) NOT NULL, userhash varchar(100) NOT NULL, usermaxtraveldistance varchar(30) NOT NULL, userlatitude varchar(30) NOT NULL, userlongitude varchar(30) NOT NULL, useraboutMe varchar(1000) NOT NULL, userhobbies varchar(100) NOT NULL, userPHOTO varchar(100))");
         } catch (SQLException e) {
             System.err.println("[ERROR] createSchema : " + e.getMessage());
         }
@@ -35,13 +35,13 @@ public class MatchJDBC {
         return displayName;
     }
 
-    public static String getPassword(String username) throws SQLException {
-        PreparedStatement stmt = c.prepareStatement("SELECT userpassword FROM users WHERE username = ?");
+    public static String getHash(String username) throws SQLException {
+        PreparedStatement stmt = c.prepareStatement("SELECT userhash FROM users WHERE username = ?");
         stmt.setString(1,username);
         final ResultSet rs = stmt.executeQuery();
         String password="";
         while(rs.next()) {
-            password = rs.getString("userpassword");
+            password = rs.getString("userhash");
         }
         rs.close();
         return password;
@@ -120,14 +120,14 @@ public class MatchJDBC {
     }
 
     //adds a user to the db
-    public static boolean createUser (String username, String password, String displayName, String aboutMe,
+    public static boolean createUser (String username, String hash, String displayName, String aboutMe,
                                       double maxTravelDistance, double latitude, double longitude, String hobbies) {
 
         try {
-            PreparedStatement usrStmt = c.prepareStatement("INSERT INTO users(username, userdisplayname, userpassword, usermaxtraveldistance, userlatitude, userlongitude, useraboutMe, userhobbies) VALUES(?,?,?,?,?,?,?,?)");
+            PreparedStatement usrStmt = c.prepareStatement("INSERT INTO users(username, userdisplayname, userhash, usermaxtraveldistance, userlatitude, userlongitude, useraboutMe, userhobbies) VALUES(?,?,?,?,?,?,?,?)");
             usrStmt.setString(1, username);
             usrStmt.setString(2, displayName);
-            usrStmt.setString(3, password);
+            usrStmt.setString(3, hash);
             usrStmt.setDouble(4, maxTravelDistance);
             usrStmt.setDouble(5, latitude);
             usrStmt.setDouble(6, longitude);

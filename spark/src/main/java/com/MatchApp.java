@@ -19,12 +19,17 @@ import static com.MatchJDBC.*;
 import static spark.Spark.*;
 import static spark.debug.DebugScreen.*;
 
+import javax.crypto.SecretKey;
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.PBEKeySpec;
+import java.security.SecureRandom;
+import org.apache.commons.codec.binary.Base64;
 
 public class MatchApp {
 
     static BiMap<String, String> cookielist = HashBiMap.create();
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
 
         enableDebugScreen();
         // Configure Spark's embedded Jetty Web Server
@@ -97,7 +102,7 @@ public class MatchApp {
             String pass = req.queryParams("password");
             if (pass.equals("") || name.equals("")) //make sure both fields are filled out
                 res.redirect("/login.html?invalid");
-            else if(getPassword(name).equals(pass)) //check that the password matches
+            else if(check(pass,getHash(name))) //check that the password matches the hash
                 login(res, name);
             else
                 res.redirect("/login.html?invalid");
@@ -132,7 +137,7 @@ public class MatchApp {
                 return 0;
             }
             //add user to db
-            createUser (name,pass,display,about,Double.parseDouble(max),Double.parseDouble(lat),Double.parseDouble(lon),hobbies);
+            createUser (name,getSaltedHash(pass),display,about,Double.parseDouble(max),Double.parseDouble(lat),Double.parseDouble(lon),hobbies);
             //log in
             login(res,name);
             return "Registration Successful";
@@ -162,16 +167,16 @@ public class MatchApp {
         // Initialize and test database
         createSchema();
         //create test users - remove from final implementation
-        createUser("test1","jamessmith","James Smith","I like to party",100,40.75,-74.2,"101100000000000");
-        createUser("test2","jennygoldstein","Jenny Goldstein","I am sporty",95,40.70,-73.7,"110010000000000");
-        createUser("test3","rachelberry","Rachel Berry","I am destined to be a star",105,40.72,-73.9,"010000010001000");
-        createUser("test4","willschuester","Will Schuester","I am a high school teacher",150,40.83,-74.8,"000001000001100");
-        createUser("test5","quinnfabray","Quinn Fabray","I am head of the Cheerios cheerleading squad",50,40.23,-73.2,"000001010001000");
-        createUser("test6","mikechang","Mike Chang","I am the quarterback of the football team",120,40.6,-74.1,"000000100001001");
-        createUser("test7","ryujinkang","Ryujin Kang","I am the main dancer in ITZY",110,40.73,-74.5,"000101000001000");
-        createUser("test8","suesylvester","Sue Sylvester","I am a cheerleading coach",70,40.83,-73.9,"000001001100000");
-        createUser("test9","beckyjackson","Becky Jackson","I am a cheerleader",100,41.23,-73.9,"000011000010000");
-        createUser("test10","tomholland","Tom Holland","I am Spiderman",160,41.03,-74.1,"010001010000000");
+        createUser("test1",getSaltedHash("jamessmith"),"James Smith","I like to party",100,40.75,-74.2,"101100000000000");
+        createUser("test2",getSaltedHash("jennygoldstein"),"Jenny Goldstein","I am sporty",95,40.70,-73.7,"110010000000000");
+        createUser("test3",getSaltedHash("rachelberry"),"Rachel Berry","I am destined to be a star",105,40.72,-73.9,"010000010001000");
+        createUser("test4",getSaltedHash("willschuester"),"Will Schuester","I am a high school teacher",150,40.83,-74.8,"000001000001100");
+        createUser("test5",getSaltedHash("quinnfabray"),"Quinn Fabray","I am head of the Cheerios cheerleading squad",50,40.23,-73.2,"000001010001000");
+        createUser("test6",getSaltedHash("mikechang"),"Mike Chang","I am the quarterback of the football team",120,40.6,-74.1,"000000100001001");
+        createUser("test7",getSaltedHash("ryujinkang"),"Ryujin Kang","I am the main dancer in ITZY",110,40.73,-74.5,"000101000001000");
+        createUser("test8",getSaltedHash("suesylvester"),"Sue Sylvester","I am a cheerleading coach",70,40.83,-73.9,"000001001100000");
+        createUser("test9",getSaltedHash("beckyjackson"),"Becky Jackson","I am a cheerleader",100,41.23,-73.9,"000011000010000");
+        createUser("test10",getSaltedHash("tomholland"),"Tom Holland","I am Spiderman",160,41.03,-74.1,"010001010000000");
         // TODO: Delete sample createUsers after app is complete
     }
 
@@ -253,5 +258,46 @@ public class MatchApp {
             }
         }
         return friends;
+    }
+
+    //password hashing from https://stackoverflow.com/a/11038230
+
+    // The higher the number of iterations the more
+    // expensive computing the hash is for us and
+    // also for an attacker.
+    private static final int iterations = 20*1000;
+    private static final int saltLen = 32;
+    private static final int desiredKeyLen = 256;
+
+    /** Computes a salted PBKDF2 hash of given plaintext password
+     suitable for storing in a database.
+     Empty passwords are not supported. */
+    public static String getSaltedHash(String password) throws Exception {
+        byte[] salt = SecureRandom.getInstance("SHA1PRNG").generateSeed(saltLen);
+        // store the salt with the password
+        return Base64.encodeBase64String(salt) + "$" + hash(password, salt);
+    }
+
+    /** Checks whether given plaintext password corresponds
+     to a stored salted hash of the password. */
+    public static boolean check(String password, String stored) throws Exception{
+        String[] saltAndHash = stored.split("\\$");
+        if (saltAndHash.length != 2) {
+            throw new IllegalStateException(
+                    "The stored password must have the form 'salt$hash'");
+        }
+        String hashOfInput = hash(password, Base64.decodeBase64(saltAndHash[0]));
+        return hashOfInput.equals(saltAndHash[1]);
+    }
+
+    // using PBKDF2 from Sun, an alternative is https://github.com/wg/scrypt
+    // cf. http://www.unlimitednovelty.com/2012/03/dont-use-bcrypt.html
+    private static String hash(String password, byte[] salt) throws Exception {
+        if (password == null || password.length() == 0)
+            throw new IllegalArgumentException("Empty passwords are not supported.");
+        SecretKeyFactory f = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
+        SecretKey key = f.generateSecret(new PBEKeySpec(
+                password.toCharArray(), salt, iterations, desiredKeyLen));
+        return Base64.encodeBase64String(key.getEncoded());
     }
 }
