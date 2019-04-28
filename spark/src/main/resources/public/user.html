@@ -30,6 +30,9 @@
     </div>
 </div>
 <div>
+  <img id = "img">
+</div>
+<div>
   <p id="AboutMe">aboutMe</p>
 </div>
 
@@ -50,6 +53,9 @@
       var myObj = JSON.parse(this.responseText);
       document.getElementById("DisplayName").innerHTML = myObj.DisplayName;
       document.getElementById("AboutMe").innerHTML = myObj.AboutMe;
+	  if (myObj.PhotoPath != null)
+		{console.log(myObj.PhotoPath,myObj.PhotoPath != null);
+		document.getElementById("img").src= myObj.PhotoPath;}
     }
   };
   xmlhttp.open("GET", "/user/"+getUrlParameter("user"), true);
