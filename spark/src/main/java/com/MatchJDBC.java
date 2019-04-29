@@ -13,10 +13,11 @@ public class MatchJDBC {
         try {
             c = DriverManager.getConnection("jdbc:mysql://localhost:3306/?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=EST","root","");
             stmt = c.createStatement();
-            stmt.executeUpdate("DROP DATABASE IF EXISTS matchdb"); // TODO: Delete this line after app is complete
+        //    stmt.executeUpdate("DROP DATABASE IF EXISTS matchdb"); // TODO: Delete this line after app is complete
             stmt.executeUpdate("CREATE DATABASE IF NOT EXISTS matchdb");
             stmt.executeUpdate("USE matchdb");
             stmt.executeUpdate("CREATE TABLE IF NOT EXISTS users (username varchar(30) PRIMARY KEY NOT NULL, userdisplayname varchar(40) NOT NULL, userhash varchar(100) NOT NULL, usermaxtraveldistance varchar(30) NOT NULL, userlatitude varchar(30) NOT NULL, userlongitude varchar(30) NOT NULL, useraboutMe varchar(1000) NOT NULL, userhobbies varchar(100) NOT NULL, userPHOTO varchar(100), userenemies varchar(500))");
+            stmt.executeUpdate("CREATE TABLE IF NOT EXISTS messages (messageid Integer PRIMARY KEY NOT NULL, sender varchar(30) NOT NULL, receiver varchar(30) NOT NULL, message varchar(1000) NOT NULL)");
         } catch (SQLException e) {
             System.err.println("[ERROR] createSchema : " + e.getMessage());
         }
@@ -143,6 +144,47 @@ public class MatchJDBC {
         rs.close();
         return users;
     }
+
+    //returns an ArrayList of all the users in the db
+    public static ArrayList<String[]> getMessages(String sender, String receiver) throws SQLException {
+        PreparedStatement stmt = c.prepareStatement("SELECT sender, message FROM messages WHERE (sender = ? AND receiver = ?) OR (sender = ? AND receiver = ?)");
+        stmt.setString(1, sender);
+        stmt.setString(2, receiver);
+        stmt.setString(3, receiver);
+        stmt.setString(4, sender);
+        ArrayList<String[]> messages = new ArrayList<String[]>();
+        //ArrayList<String> senders = new ArrayList<String>();
+        final ResultSet rs = stmt.executeQuery();
+        while(rs.next()) {
+            String[] message = {rs.getString("sender"),rs.getString("message")};
+            messages.add(message);
+        }
+        rs.close();
+        return messages;
+    }
+
+    public static boolean addMessage(String sender, String receiver, String message) throws SQLException {
+        try {
+            stmt = c.createStatement();
+            final ResultSet rs = stmt.executeQuery("SELECT COUNT(*) FROM messages");
+            String count = "";
+            while(rs.next()) {
+                count = ""+(Integer.parseInt(rs.getString("COUNT(*)"))+1);
+            }
+            PreparedStatement stmt = c.prepareStatement("INSERT INTO messages(messageid, sender, receiver, message) VALUES(?,?,?,?)");
+            stmt.setString(1, count);
+            stmt.setString(2, sender);
+            stmt.setString(3, receiver);
+            stmt.setString(4, message);
+            stmt.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            System.err.println("[ERROR] addMessage: " + e.getMessage());
+            return false;
+        }
+    }
+
+
 
     //adds a user to the db
     public static boolean createUser (String username, String hash, String displayName, String aboutMe,

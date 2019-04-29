@@ -35,6 +35,7 @@
 <div>
   <p id="AboutMe">aboutMe</p>
 </div>
+<div id="div0">
   <form action="./reject" method="post">
     <div hidden>
       <label for="name">name:</label>
@@ -43,13 +44,27 @@
     <div>
       <button>Reject</button>
     </div>
-    <div>
-      <a style="color:black;" href="./register.html">Register a new account.</a>
-    </div>
   </form>
+</div>
+<br>
+<div id="div1">
+</div>
 
 
-
+<div id="div2">
+  <form action="./message" method="post">
+    <div hidden>
+      <label for="receiver">receiver:</label>
+      <input name="receiver" id="receiver">
+    </div>
+	<div>
+		<textarea name="message" rows="3" cols="50"></textarea>
+	</div>
+	<div align="center">
+		<input type="submit" name="send_button" value="Send message" id="submitbutton"/>
+	</div>
+  </form>
+</div>
 <script>
   function getUrlParameter(name) { //https://davidwalsh.name/query-string-javascript
     name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
@@ -59,6 +74,7 @@
   };
   
   document.getElementById("name").value=getUrlParameter("user");
+  document.getElementById("receiver").value=getUrlParameter("user");
 
   var xmlhttp = new XMLHttpRequest();
   xmlhttp.onreadystatechange = function() {
@@ -69,6 +85,24 @@
 	  if (myObj.PhotoPath != null)
 		{console.log(myObj.PhotoPath,myObj.PhotoPath != null);
 		document.getElementById("img").src= myObj.PhotoPath;}
+	  for (i=0;i<JSON.parse(myObj.Messages).length;i++){
+        var div =  document.createElement("div");
+        var strong =  document.createElement("strong"); 
+        div.appendChild(strong);
+        var node1 = document.createTextNode(JSON.parse(myObj.Messages)[i][0]);
+        strong.appendChild(node1);
+        var weak = document.createElement("span");
+        div.appendChild(weak);
+        var node2 = document.createTextNode(JSON.parse(myObj.Messages)[i][1]);
+        weak.appendChild(node2);
+        var element = document.getElementById("div1");
+        element.appendChild(div);
+      }
+	  if (myObj.self){
+		document.getElementById("div0").hidden=true;
+		document.getElementById("div1").hidden=true;
+		document.getElementById("div2").hidden=true;
+	  }
     }
   };
   xmlhttp.open("GET", "/user/"+getUrlParameter("user"), true);

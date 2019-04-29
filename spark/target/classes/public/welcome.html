@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon"
+        type="image/png"
+        href="https://sitejerk.com/images/matches-png-18.png">
+  <title>MATCH friends</title>
+
+  <link href="style.css" rel="stylesheet" type = "text/css">
+  <style>
+    html{
+      margin:auto;
+      background-image:url(https://img3.akspic.com/image/132782-party_supply-light-night-diwali-sparkler-4693x3129.jpg);
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      background-size: cover;
+    }
+  </style>
+</head>
+<body>
+<div class = "navbar" style="width:50%;">
+  <a>MATCH</a><img src="https://sitejerk.com/images/matches-png-18.png" alt="matchlogo" style = "margin-left:1%; width:40px;height:40px;">
+  <div>
+    <a id="self" style="font-size:20px;">View profile</a>
+    <a href="./logout" style="font-size:20px;">- Logout</a>
+  </div>
+</div>
+
+<!--HTML Form to choose and upload profile picture-->
+<div>
+  <h3>Choose your Profile Picture</h3>
+  <form action="./upload" method="post" enctype="multipart/form-data" style = "color:white;">
+    <input type="file" name="UploadedPhoto" accept="image/*">
+    <button>Upload Photo</button>
+  </form>
+</div>
+
+
+<div>
+  <h1 style="font-size:300%; color:orange;">These are your Friends:</h1>
+</div>
+<div id="div1">
+</div>
+
+<script>
+  var xmlhttp = new XMLHttpRequest();
+  xmlhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      var myObj = JSON.parse(this.responseText);
+      for (i=0;i<myObj.UserName.length;i++){
+        var div =  document.createElement("div");
+        var but =  document.createElement("div"); //change this div to button if needed for frontend
+        var link = document.createElement("a");
+        div.appendChild(but);
+        but.appendChild(link);
+        var node = document.createTextNode(myObj.DisplayName[i]);
+        link.appendChild(node);
+        link.setAttribute("href","./user.html?user="+myObj.UserName[i]);
+        var element = document.getElementById("div1");
+        element.appendChild(div);
+      }
+      document.getElementById("self").setAttribute("href","./user.html?user="+myObj.self);
+    }
+  };
+  xmlhttp.open("GET", "/friends", true);
+  xmlhttp.send();
+
+
+
+
+</script>
+
+</body>
+</html>

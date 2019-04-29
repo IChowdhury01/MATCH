@@ -2,6 +2,8 @@ package com;
 
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import spark.Response;
@@ -68,6 +70,17 @@ public class MatchApp {
             jres.addProperty("DisplayName", getDisplayName(username));
             jres.addProperty("AboutMe", getAboutMe(username));
             jres.addProperty("PhotoPath", getPhoto(username));
+            String self=userFromCookie(req,res);
+            ArrayList<String[]> messages= getMessages(username,self);
+            for (String[] message : messages ) {
+                if (message[0].equals(self))
+                    message[0]="Me: ";
+                else
+                    message[0]=getDisplayName(message[0])+": ";
+            }
+            Gson gsonBuilder = new GsonBuilder().create();
+            jres.addProperty("Messages",gsonBuilder.toJson(messages));
+            jres.addProperty("self",username.equals(self));
             return jres;
         });
         get("/friends", (req,res)-> { //logged in screen / friend list
@@ -143,6 +156,15 @@ public class MatchApp {
             return "Registration Successful";
         });
 
+        post("/message", (req,res) -> {
+            String sender = userFromCookie(req,res);
+            String receiver = req.queryParams("receiver");
+            String message = req.queryParams("message");
+            addMessage(sender,receiver,message);
+            res.redirect("/user.html?user="+receiver);
+            return 1;
+        });
+
 
         // Image Upload routing
         post("/upload", (req, res) -> {    // Post request at friends list page (welcome.html)
@@ -171,8 +193,6 @@ public class MatchApp {
             res.redirect("/");
             return 1;
         });
-
-
 
             // Initialize and test database
         createSchema();
@@ -287,7 +307,10 @@ public class MatchApp {
      suitable for storing in a database.
      Empty passwords are not supported. */
     public static String getSaltedHash(String password) throws Exception {
-        byte[] salt = SecureRandom.getInstance("SHA1PRNG").generateSeed(saltLen);
+        //byte[] salt = SecureRandom.getInstance("SHA1PRNG").generateSeed(saltLen); //This line from the algorithm was prohibitively slow
+        SecureRandom random = new SecureRandom();
+        byte[] salt = new byte[saltLen];
+        random.nextBytes(salt);
         // store the salt with the password
         return Base64.encodeBase64String(salt) + "$" + hash(password, salt);
     }
