@@ -74,7 +74,7 @@ public class MatchApp {
             ArrayList<String[]> messages= getMessages(username,self);
             for (String[] message : messages ) {
                 if (message[0].equals(self))
-                    message[0]="Me: ";
+                    message[0]="You: ";
                 else
                     message[0]=getDisplayName(message[0])+": ";
             }
