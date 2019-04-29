@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<html>
 <head>
   <meta charset="UTF-8">
   <link rel="icon"
@@ -21,7 +22,7 @@
 <div class = "navbar" style="width:50%;">
   <a>MATCH</a><img src="https://sitejerk.com/images/matches-png-18.png" alt="matchlogo" style = "margin-left:1%; width:40px;height:40px;">
   <div>
-    <a id=self style="font-size:20px;">View profile</a>
+    <a id="self" style="font-size:20px;">View profile</a>
     <a href="./logout" style="font-size:20px;">- Logout</a>
   </div>
 </div>
@@ -30,17 +31,17 @@
 <!--TODO Fix style around HTML form-->
 <div>
   <h3>Choose your Profile Picture</h3>
-  <form action=./upload method='post' enctype='multipart/form-data'>
-    <input type='file' name='UploadedPhoto' accept='image/*'>
+  <form action="./upload" method="post" enctype="multipart/form-data" style = "color:white;">
+    <input type="file" name="UploadedPhoto" accept="image/*">
     <button>Upload Photo</button>
   </form>
 </div>
 
 
 <div>
-  <h1 style="font-size:300%; color:white;">These are your Friends:</h1>
+  <h1 style="font-size:300%; color:orange;">These are your Friends:</h1>
 </div>
-<div id=div1>
+<div id="div1">
 </div>
 
 <script>
