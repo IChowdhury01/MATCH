@@ -19,7 +19,6 @@ import java.util.Iterator;
 
 import static com.MatchJDBC.*;
 import static spark.Spark.*;
-import static spark.debug.DebugScreen.*;
 
 import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
@@ -33,7 +32,6 @@ public class MatchApp {
 
     public static void main(String[] args) throws Exception {
 
-        enableDebugScreen();
         // Configure Spark's embedded Jetty Web Server
         port(8080);
 
