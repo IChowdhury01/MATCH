@@ -6,14 +6,14 @@ import java.util.ArrayList;
 public class MatchJDBC {
     static Connection c = null;
     static Statement stmt = null;
-    public static int usercount;
 
     static void createSchema () {
         //create schema and table if they don't exist
         try {
             c = DriverManager.getConnection("jdbc:mysql://localhost:3306/?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=EST","root","");
             stmt = c.createStatement();
-        //    stmt.executeUpdate("DROP DATABASE IF EXISTS matchdb"); // TODO: Delete this line after app is complete
+        //    Uncomment this next line if you want the database to reset each time the app is run
+        //    stmt.executeUpdate("DROP DATABASE IF EXISTS matchdb");
             stmt.executeUpdate("SET wait_timeout = 2700000 , interactive_timeout = 2700000");
             stmt.executeUpdate("CREATE DATABASE IF NOT EXISTS matchdb");
             stmt.executeUpdate("USE matchdb");
