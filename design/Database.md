@@ -1,8 +1,8 @@
 - Data stored for every user
-  - username (string)
+  - username (string) (primary key)
   - userdisplayname (string)
   - userpassword (string)
-  - usermaxtraveldistance (double) (what is this? miles?)
+  - usermaxtraveldistance (double) (miles)
   - userlatitude (double)
   - userlongitude (double)
   - aboutMe/Bio (string)
@@ -22,6 +22,14 @@
     - Going to the Movies       
     - Basketball 
     - Football
+   - photopath (string with filename of profile photo)
+   - enemies list (comma seperated string of rejected matches)
+
+- messages table
+  - id (int) (primary key) (used so the messages display in order)
+  - sender (string)
+  - receiver (string)
+  - message (string)
 
 ### Methods
 
@@ -30,11 +38,17 @@
 - userLogin
   - Takes in strings name and password
   - Outputs Boolean (true if login success, false if failure)
-- getDisplayName, getPassword, getAboutMe, getHobbies, getMaxTravelDistance, getLatitude, getLongitude
+- getDisplayName, getPassword, getAboutMe, getHobbies, getMaxTravelDistance, getLatitude, getLongitude, getPhoto, getEnemies
   - Takes in strings username
   - Outputs a String or double with the corresponding property of that user in the db
 - getUserList
   - Outputs an ArrayList of all the username strings in the db
+- uploadPhoto
+  - Takes username and photopath, updates field
+  - returns boolean
+- addEnemy
+  - Takes username and rejected match username, adds rejected user to the field
+  - returns boolean
 - createUser
   - Input
     - strings
@@ -48,3 +62,9 @@
       - latitude
       - longitude
   - Output boolean
+- getMessages
+  - Takes two usernames
+  - returns arraylist of [sender,message] string[] between them in order
+- addMessage
+  - Takes two usernames and a message, adds to table
+  - returns boolean
