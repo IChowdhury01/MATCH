@@ -14,6 +14,7 @@ public class MatchJDBC {
             c = DriverManager.getConnection("jdbc:mysql://localhost:3306/?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=EST","root","");
             stmt = c.createStatement();
         //    stmt.executeUpdate("DROP DATABASE IF EXISTS matchdb"); // TODO: Delete this line after app is complete
+            stmt.executeUpdate("SET wait_timeout = 2700000 , interactive_timeout = 2700000");
             stmt.executeUpdate("CREATE DATABASE IF NOT EXISTS matchdb");
             stmt.executeUpdate("USE matchdb");
             stmt.executeUpdate("CREATE TABLE IF NOT EXISTS users (username varchar(30) PRIMARY KEY NOT NULL, userdisplayname varchar(40) NOT NULL, userhash varchar(100) NOT NULL, usermaxtraveldistance varchar(30) NOT NULL, userlatitude varchar(30) NOT NULL, userlongitude varchar(30) NOT NULL, useraboutMe varchar(1000) NOT NULL, userhobbies varchar(100) NOT NULL, userPHOTO varchar(100), userenemies varchar(500))");
