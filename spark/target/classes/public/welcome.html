@@ -29,7 +29,7 @@
 
 <!--HTML Form to choose and upload profile picture-->
 <div>
-  <h3>Choose your Profile Picture</h3>
+  <h3 id="pic">Choose your Profile Picture</h3>
   <form action="./upload" method="post" enctype="multipart/form-data" style = "color:white;">
     <input type="file" name="UploadedPhoto" accept="image/*">
     <button>Upload Photo</button>
@@ -61,6 +61,8 @@
         element.appendChild(div);
       }
       document.getElementById("self").setAttribute("href","./user.html?user="+myObj.self);
+	  if (myObj.PhotoPath != null)
+	   document.getElementById("pic").innerHTML = "Replace your Profile Picture"
     }
   };
   xmlhttp.open("GET", "/friends", true);

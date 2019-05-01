@@ -88,8 +88,7 @@
       document.getElementById("DisplayName").innerHTML = myObj.DisplayName;
       document.getElementById("AboutMe").innerHTML = myObj.AboutMe;
       if (myObj.PhotoPath != null)
-      {console.log(myObj.PhotoPath,myObj.PhotoPath != null);
-        document.getElementById("img").src= myObj.PhotoPath;}
+        document.getElementById("img").src= myObj.PhotoPath;
       for (i=0;i<JSON.parse(myObj.Messages).length;i++){
         var div =  document.createElement("div");
         var strong =  document.createElement("strong");

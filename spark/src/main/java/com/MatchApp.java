@@ -95,6 +95,7 @@ public class MatchApp {
             jres.add("DisplayName",jname);
             jres.add("UserName",juser);
             jres.addProperty("self",username);
+            jres.addProperty("PhotoPath",getPhoto(username));
             return jres;
         });
 
