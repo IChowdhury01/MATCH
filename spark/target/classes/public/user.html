@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<html>
 <head>
   <meta charset="UTF-8">
   <link rel="icon"
@@ -11,6 +12,10 @@
     html{
       margin:auto;
     }
+    img {
+      max-width: 100%;
+      height: auto;
+    }
   </style>
 </head>
 <body>
@@ -18,22 +23,22 @@
   <div class = "navbar" style="width:50%;">
     <a>MATCH</a><img src="https://sitejerk.com/images/matches-png-18.png" alt="matchlogo" style = "margin-left:1%; width:40px;height:40px;">
   </div>
-  <a href="./login.html" style="font-size:20px;">
-    <div class="top-user">
-      <a href="./" style="color:white;">Back to friend list</a>
-      <a href="./logout" style="color:white;">- Logout</a>
-    </div>
+  <a href="./login.html" style="font-size:20px;"></a>
+  <div class="top-user">
+    <a href="./" style="color:white;">Back to friend list</a>
+    <a href="./logout" style="color:white;">- Logout</a>
+  </div>
 
 
-    <div>
-      <h1 id="DisplayName" style="font-size:400%;">Display Name</h1>
-    </div>
+  <div>
+    <h1 id="DisplayName" style="font-size:400%;">Display Name</h1>
+  </div>
 </div>
 <div>
   <img id = "img">
 </div>
 <div>
-  <p id="AboutMe">aboutMe</p>
+  <p id="AboutMe">I am the leader of BTS. I can rap, sing, dance, you name it. You can call me RM (before, I used to be Rap Monster). I was born in South Korea and I love all my ARMY fans out there. Love myself, love yourself is my motto. I learned English through watching the TV series, Friends, and I have the best English out of all of BTS. I've done songs with Wale, Fall Out Boy, and Primary, just to name a few.</p>
 </div>
 <div id="div0">
   <form action="./reject" method="post">
@@ -57,12 +62,12 @@
       <label for="receiver">receiver:</label>
       <input name="receiver" id="receiver">
     </div>
-	<div>
-		<textarea name="message" rows="3" cols="50"></textarea>
-	</div>
-	<div align="center">
-		<input type="submit" name="send_button" value="Send message" id="submitbutton"/>
-	</div>
+    <div>
+      <textarea name="message" rows="3" cols="50"></textarea>
+    </div>
+    <div align="center">
+      <input type="submit" name="send_button" value="Send message" id="submitbutton"/>
+    </div>
   </form>
 </div>
 <script>
@@ -72,7 +77,7 @@
     var results = regex.exec(location.search);
     return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
   };
-  
+
   document.getElementById("name").value=getUrlParameter("user");
   document.getElementById("receiver").value=getUrlParameter("user");
 
@@ -82,12 +87,12 @@
       var myObj = JSON.parse(this.responseText);
       document.getElementById("DisplayName").innerHTML = myObj.DisplayName;
       document.getElementById("AboutMe").innerHTML = myObj.AboutMe;
-	  if (myObj.PhotoPath != null)
-		{console.log(myObj.PhotoPath,myObj.PhotoPath != null);
-		document.getElementById("img").src= myObj.PhotoPath;}
-	  for (i=0;i<JSON.parse(myObj.Messages).length;i++){
+      if (myObj.PhotoPath != null)
+      {console.log(myObj.PhotoPath,myObj.PhotoPath != null);
+        document.getElementById("img").src= myObj.PhotoPath;}
+      for (i=0;i<JSON.parse(myObj.Messages).length;i++){
         var div =  document.createElement("div");
-        var strong =  document.createElement("strong"); 
+        var strong =  document.createElement("strong");
         div.appendChild(strong);
         var node1 = document.createTextNode(JSON.parse(myObj.Messages)[i][0]);
         strong.appendChild(node1);
@@ -98,11 +103,11 @@
         var element = document.getElementById("div1");
         element.appendChild(div);
       }
-	  if (myObj.self){
-		document.getElementById("div0").hidden=true;
-		document.getElementById("div1").hidden=true;
-		document.getElementById("div2").hidden=true;
-	  }
+      if (myObj.self){
+        document.getElementById("div0").hidden=true;
+        document.getElementById("div1").hidden=true;
+        document.getElementById("div2").hidden=true;
+      }
     }
   };
   xmlhttp.open("GET", "/user/"+getUrlParameter("user"), true);
