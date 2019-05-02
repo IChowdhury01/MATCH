@@ -22,9 +22,9 @@ Server: Java, Spark, JDBC
 
 Database: MySQL
 
-For compilation instructions, please go to the spark folder and see the README there.
+## For compilation instructions, please go to the spark folder and see the README there.
 
-## Instuctions to set up locally
+## Instructions to set up locally
 
 1. Install and start mysql
 2. Open up the project in IntelliJ with the `pom.xml` file
