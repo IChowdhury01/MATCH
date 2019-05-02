@@ -1,6 +1,11 @@
 #! /bin/bash
-
 #intergrated test for userhandlling using shell script
+
+#make sure the username used for the test does not exist in the user table
+mysql -u root
+use matchdb;
+DELETE FROM users WHERE username='itest2';
+
 #check the registration
 curl -k --data "username=itest2&password=itest2&displayName=itest&aboutMe=itest&maxTravelDistance=10&latitude=40&longitude=-74&swimming=1&reading=1&bike=1&hiking=1&camp=1&dance=1&run=1&games=1&bowl=1&basketball=1&football=1&baseball=1&program=1&TV=1&movies" https://199.98.27.118:8080/register
 
@@ -18,6 +23,11 @@ else
 echo "Not Working"
 fi
 
+#clear the test name after the integrated test
+mysql -u root
+use matchdb;
+DELETE FROM users WHERE username='itest2';
 
 #result directed to a file method
 #curl -k -H "Accept: application/json" -H "Content-Type: application/json" -X GET https://199.98.27.118:8080/friends >> C:\cygwin64\home\Lenovo
+
