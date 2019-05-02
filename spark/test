@@ -1,0 +1,12 @@
+#!/bin/bash
+
+mysql -u root -e "use matchdb; DELETE FROM users WHERE username='test'"
+curl -k --data "username=test&password=123&displayName=Display&aboutMe=text&maxTravelDistance=20&latitude=40&longitude=-74&swimming=1&reading=1&bike=1&hiking=1&camp=1&dance=1&run=1&games=1&bowl=1&basketball=1&football=1&baseball=1&program=1&TV=1&movies" https://199.98.27.118:8080/register
+response=$(curl -k -H "Accept: application/json" -H "Content-Type: application/json" -X GET https://199.98.27.118:8080/user/test);
+test='{"DisplayName":"Display","AboutMe":"text","PhotoPath":null,"Messages":"[]","self":false}'
+if [ "$test" == "$response" ]; then
+        echo "It works"
+else
+        echo "Nope"
+fi
+mysql -u root -e "use matchdb; DELETE FROM users WHERE username='test'"
