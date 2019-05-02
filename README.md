@@ -20,8 +20,7 @@ Server: Java, Spark, JDBC
 
 Database: MySQL
 
-![logo](https://cdn.pixabay.com/photo/2017/09/02/04/35/fire-2706299_960_720.jpg)
-
+For compilation instructions, please go to the spark folder and see the README there.
 
 ## Instuctions to set up locally
 
@@ -39,6 +38,8 @@ Run the bash script `test`. This will try creating a new user and checking that 
 
 This should all be pretty intuitive, but in case you can't figure it out here are some detailed instructions.
 
+Go to https://199.98.27.118/
+
 **Creating a new user.** From the homepage select `Register a new account.`. Fill out all the fields, click `Get Location`, and then click `Register`.
 
 **Logging in** From the homepage select `Log in`. Enter out the username and password and hit `Log in`. Note that registering an ccount will automatically log you in.
@@ -54,3 +55,6 @@ This should all be pretty intuitive, but in case you can't figure it out here ar
 **Rejecting a match** When a viewing a freind's profile, select `Reject`. They will no longer appear on your list of freinds and you will no longer appear on theirs.
 
 **Messaging a friend** When a viewing a freind's profile, type in the textbox and click `Send Message`. Previously sent messages will also be shown on the page.
+
+Happy matching!
+![logo](https://cdn.pixabay.com/photo/2017/09/02/04/35/fire-2706299_960_720.jpg)
