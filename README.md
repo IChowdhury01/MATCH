@@ -46,9 +46,9 @@ Go to https://199.98.27.118:8080/
 
 **Logging in** From the homepage select `Log in`. Enter out the username and password and hit `Log in`. Note that registering an ccount will automatically log you in.
 
-**Viewing your freind list** After logging in you'll see you list of freinds. (Unless you don't have any 😢.)
+**Viewing your friend list** After logging in you'll see you list of freinds. (Unless you don't have any 😢.)
 
-**Viewing a freind's profile** Clicking on a name in your list of freinds will show you their profile.
+**Viewing a friend's profile** Clicking on a name in your list of freinds will show you their profile.
 
 **Viewing your own profile** Clicking on `View profile` in the top left corner will show you your own profile.
 
