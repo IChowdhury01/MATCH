@@ -9,7 +9,7 @@ curl -k -d "username=itest2&password=itest2&submit=Login" --dump-header headers 
 curl -k -L -b headers https://199.98.27.118:8080/home
 
 response=$(curl -k -H "Accept: application/json" -H "Content-Type: application/json" -X GET https://199.98.27.118:8080/user/itest2)
-itest2={"DisplayName":"itest2","AboutMe":"itest","PhotoPath":null,"Messages":"[]","self":false}
+itest2={"DisplayName":"itest","AboutMe":"itest","PhotoPath":null,"Messages":"[]","self":false}
 
 if (itest2==response); 
 then
