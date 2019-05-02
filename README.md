@@ -31,6 +31,10 @@ Database: MySQL
 4. Right click on `MatchApp.java` and select `Run 'MatchApp.main()'`
 5. Navigate to `https://localhost:8080` in your browser
 
+## Instructions to run integration test
+
+Run the bash script `test`. This will try creating a new user and checking that their profile page returns the expected results.
+
 ## Instructions to use the app
 
 This should all be pretty intuitive, but in case you can't figure it out here are some detailed instructions.
