@@ -40,7 +40,3 @@ Testing
 7. Click register and try a)leaving fields blank b)using an already existing username (e.g. test1), c)entering a non-number in max distance, d)not clicking Get Location e)clicking Get Location
 
 8. Make a new account and log in with it.
-
-What's left to implement
--
- The main things that still need to be implemented are: concurrent user requests, and unittests
