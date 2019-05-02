@@ -2,6 +2,8 @@
 
 MATCH is a friend-matching platform that uses user geolocation data, personal hobbies, and various other preferences to match users with new friends near their area.
 
+https://199.98.27.118:8080/
+
 ## Team Members:
 Ivan Chowdhury
 
@@ -38,7 +40,7 @@ Run the bash script `test`. This will try creating a new user and checking that 
 
 This should all be pretty intuitive, but in case you can't figure it out here are some detailed instructions.
 
-Go to https://199.98.27.118/
+Go to https://199.98.27.118:8080/
 
 **Creating a new user.** From the homepage select `Register a new account.`. Fill out all the fields, click `Get Location`, and then click `Register`.
 
