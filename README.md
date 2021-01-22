@@ -60,7 +60,7 @@ To do an **integration test**, run the bash script `test`. This will try creatin
 - **Messaging a friend:** When a viewing a friend's profile, type in the textbox and click `Send Message`. Previously sent messages will also be shown on the page.
 
 ## License
-This project is licensed under the MIT License - see the LICENSE.md file for details
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details
 
 # Happy Matching!
 ![logo](https://cdn.pixabay.com/photo/2017/09/02/04/35/fire-2706299_960_720.jpg)
