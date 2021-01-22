@@ -22,7 +22,7 @@ MATCH is a web app that allows users to find friends with similar interests in t
 
 
 
-## Tech Stack
+### Tech Stack
 Web Server: Spark (embedded Jetty web server)
 
 Server: Spark, JDBC
