@@ -1,5 +1,7 @@
 # MATCH: Friend-Matching Platform
 
+![demo](/screenshots/animation.gif)
+
 Team: Ivan Chowdhury, Min JO, Sara Huang, Hanoch Goldfarb
 
 
