@@ -49,13 +49,13 @@ To do an **integration test**, run the bash script `test`. This will try creatin
 
 ## Instructions
 
-- **Creating a new user.** From the homepage select `Register a new account.`. Fill out all the fields, click `Get Location`, and then click `Register`.
+- **Creating a new user:** From the homepage select `Register a new account.`. Fill out all the fields, click `Get Location`, and then click `Register`.
 
-- **Viewing a friend's profile** Clicking on a name in your list of friends will show you their profile.
+- **Viewing a friend's profile:** Clicking on a name in your list of friends will show you their profile.
 
-- **Rejecting a match** When a viewing a friend's profile, select `Reject`. They will no longer appear on your list of friends and you will no longer appear on theirs.
+- **Rejecting a match:** When a viewing a friend's profile, select `Reject`. They will no longer appear on your list of friends and you will no longer appear on theirs.
 
-- **Messaging a friend** When a viewing a friend's profile, type in the textbox and click `Send Message`. Previously sent messages will also be shown on the page.
+- **Messaging a friend:** When a viewing a friend's profile, type in the textbox and click `Send Message`. Previously sent messages will also be shown on the page.
 
-Happy matching!
+### Happy matching!
 ![logo](https://cdn.pixabay.com/photo/2017/09/02/04/35/fire-2706299_960_720.jpg)
