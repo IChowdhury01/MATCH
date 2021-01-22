@@ -26,17 +26,14 @@ Database: MySQL
 
 ### Running Locally
 
-1. Start MySQL and run a server.
-2. Open `pom.xml` in your editor of choice.
-3. Edit the credentials in the beginning of `MatchJDBC.java` to match your mysql credentials
-4. Run `MatchApp.java`
-5. Navigate to `https://localhost:8080` in your browser. If this doesn't work, try https://199.98.27.118:8080/
+1. Start MySQL and run a server. Record your MySQL credentials.
+2. Edit the credentials in the beginning of `MatchJDBC.java` to match your MySQL credentials
+3. Run `MatchApp.java`
+4. Navigate to `https://localhost:8080` in your browser. If this doesn't work, try https://199.98.27.118:8080/
 
+### Testing
 
-## Testing
-### Integration Tests
-
-To do an integration test, run the bash script `test`. This will try creating a new user and checking that their profile page returns the expected results.
+To do an **integration test**, run the bash script `test`. This will try creating a new user and checking that their profile page returns the expected results.
 
 ## Instructions
 
