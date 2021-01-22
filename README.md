@@ -6,6 +6,18 @@ Team: Ivan Chowdhury, Min JO, Sara Huang, Hanoch Goldfarb
 ## Description
 MATCH is a web app that allows users to find friends with similar interests in their area. MATCH's friend-matching algorithm utilizes user geolocation data, hobbies, and other personal preferences to optimize results. The app also features PBKDF2 encryption, cookies, and account management.
 
+### Features
+
+- Account management: registration, login, friends list, and customizable profile
+
+- Accept or reject matches
+
+- Chat with friends
+
+- PBKDF2 encryption
+
+- Cookies
+
 
 
 ## Tech Stack
@@ -39,15 +51,7 @@ To do an **integration test**, run the bash script `test`. This will try creatin
 
 - **Creating a new user.** From the homepage select `Register a new account.`. Fill out all the fields, click `Get Location`, and then click `Register`.
 
-- **Logging in** From the homepage select `Log in`. Enter out the username and password and hit `Log in`. Note that registering an ccount will automatically log you in.
-
-- **Viewing your friend list** After logging in you'll see you list of friends.
-
 - **Viewing a friend's profile** Clicking on a name in your list of friends will show you their profile.
-
-- **Viewing your own profile** Clicking on `View profile` in the top left corner will show you your own profile.
-
-- **Uploading a photo** After logging in, click `choose file`, select a file, and then click `Upload Photo`. The picture will be visible on your profile page.
 
 - **Rejecting a match** When a viewing a friend's profile, select `Reject`. They will no longer appear on your list of friends and you will no longer appear on theirs.
 
